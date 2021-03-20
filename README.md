@@ -1,6 +1,8 @@
+# IN DEVELOPMENT
+ 
  # Foe Helper Tool
  
- I made this tool to help me with Forge of empires using autohotkey and color detection. While I try to keep it updated, I can't garantee it will always work. The script was developped on FOE France. Some functions might not work in other regions. 
+ I made this tool to help me with Forge of empires using autohotkey and color detection. While I try to keep it updated, I can't garantee it will always work. The script was developped on FOE France. Some functions might not work in other regions.
  
 ## How to get started:
 

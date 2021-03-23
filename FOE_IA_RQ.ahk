@@ -89,8 +89,11 @@ ClickAbandonner( x, y )
 ReadyUp()
 {
 	RESET := RESET + 1
+	WinGetActiveStats, title, t1, t2, t3, t4
+	WinActivate, ahk_id %ID%
 	Loop
 	{
+		
 		; Refresh the page
 		ControlSend,, ^r, ahk_id %ID%
 		Wait( 15000 )
@@ -118,6 +121,7 @@ ReadyUp()
 			; Abandon possible quest
 			Wait( 500 )
 			ClickFirefox( 300,343 )
+			WinActivate, %title%
 			return
 		}
 		

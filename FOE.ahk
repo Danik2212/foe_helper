@@ -92,7 +92,7 @@ InitGui(){
 		Gui, Add, Edit,         x130 y170 w90  h20   gSaveEvent_EDIT_FRIENDS_TO_REMOVE ,
 		Gui, Add, UpDown,       x200 y170 w20  h20   gSaveEvent_UD_FRIENDS_TO_REMOVE vFRIENDS_TO_REMOVE Range1-150, % FRIENDS_TO_REMOVE
 								
-		Gui, Add, CheckBox,     x20  y195 w200 h20   gSaveEvent_CB_RQ_LOOP vRQ_LOOP Checked%RQ_LOOP%, RQ loop
+		Gui, Add, CheckBox,     x20  y195 w200 h20   gSaveEvent_CB_SMART_FIGHTING vSMART_FIGHTING Checked%SMART_FIGHTING%, Smart fighting
 		
 		Gui, Add, CheckBox,     x20  y220 w200 h20   gSaveEvent_RED_DOT vRED_DOT Checked%RED_DOT%, Red dot
 		
@@ -111,10 +111,13 @@ InitGui(){
 		Gui, Add, Text,         x245 y145 w120 h20  , Type of unit:
 		Gui, Add, DropDownList, x355 y145 w90  h200 gSaveEvent_DD_UNIT_TYPE vUNIT_TYPE Choose%UNIT_TYPE%  AltSubmit, Fast|Heavy|Light|Artillery|Distance
 								
-		Gui, Add, Text,         x245 y195 w120 h20 , GvG section
+		Gui, Add, Text,         x245 y170 w120 h20  , Fighting age:
+		Gui, Add, DropDownList, x355 y170 w90  h200 gSaveEvent_FIGHT_AGE vFIGHT_AGE Choose%FIGHT_AGE%  AltSubmit, Iron|Virtual|						
+		
+		Gui, Add, Text,         x245 y205 w120 h20 , GvG section
 									
-		Gui, Add, Text,         x245 y220 w120 h20 , Siege age:
-		Gui, Add, DropDownList, x355 y220 w90  h200 gSaveEvent_DD_SIEGE_AGE vSIEGE_AGE Choose%SIEGE_AGE%  AltSubmit, TLA|Others
+		Gui, Add, Text,         x245 y230 w120 h20 , Siege age:
+		Gui, Add, DropDownList, x355 y230 w90  h200 gSaveEvent_DD_SIEGE_AGE vSIEGE_AGE Choose%SIEGE_AGE%  AltSubmit, TLA|Others
 	
 	
 	Gui, Tab, 2
@@ -217,7 +220,8 @@ SaveConfigs()
 	IniWrite, %RQ_SLOTS%, %fileLocation%, HelperGeneralSection, RQ_SLOTS
 	IniWrite, %CONSTRUCTION_SLOTS%, %fileLocation%, HelperGeneralSection, CONSTRUCTION_SLOTS
 	IniWrite, %FRIENDS_TO_REMOVE%, %fileLocation%, HelperGeneralSection, FRIENDS_TO_REMOVE
-	IniWrite, %RQ_LOOP%, %fileLocation%, HelperGeneralSection, RQ_LOOP
+	IniWrite, %SMART_FIGHTING%, %fileLocation%, HelperGeneralSection, SMART_FIGHTING
+	IniWrite, %FIGHT_AGE%, %fileLocation%, HelperGeneralSection, FIGHT_AGE
 	
 	; GBG Section
 	IniWrite, %ROGUES_NUMBER%, %fileLocation%, HelperGBGSection, ROGUES_NUMBER
@@ -249,7 +253,8 @@ LoadConfigs()
 	IniRead, RQ_SLOTS, %fileLocation%, HelperGeneralSection, RQ_SLOTS
 	IniRead, CONSTRUCTION_SLOTS, %fileLocation%, HelperGeneralSection, CONSTRUCTION_SLOTS
 	IniRead, FRIENDS_TO_REMOVE, %fileLocation%, HelperGeneralSection, FRIENDS_TO_REMOVE
-	IniRead, RQ_LOOP, %fileLocation%, HelperGeneralSection, RQ_LOOP
+	IniRead, SMART_FIGHTING, %fileLocation%, HelperGeneralSection, SMART_FIGHTING
+	IniRead, FIGHT_AGE, %fileLocation%, HelperGeneralSection, FIGHT_AGE
 	
 	; GBG Section
 	IniRead, ROGUES_NUMBER, %fileLocation%, HelperGBGSection, ROGUES_NUMBER
@@ -485,8 +490,9 @@ SaveEvent_UD_CONSTRUCTION_SLOTS:
 SaveEvent_EDIT_CONSTRUCTION_SLOTS:
 SaveEvent_UD_FRIENDS_TO_REMOVE:
 SaveEvent_EDIT_FRIENDS_TO_REMOVE:
-SaveEvent_CB_RQ_LOOP:
+SaveEvent_CB_SMART_FIGHTING:
 SaveEvent_RED_DOT:
+SaveEvent_FIGHT_AGE:
 
 SaveEvent_UD_ROGUES_NUMBER:
 SaveEvent_EDIT_ROGUES_NUMBER:

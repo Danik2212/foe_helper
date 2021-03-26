@@ -3,14 +3,14 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 #include %A_ScriptDir%  ; Ensures a consistent starting directory
 #Include %A_LineFile%\..\Gdip_All.ahk
 
-;SetBatchLines 100
+SetBatchLines 10
 
 CoordMode, Mouse, Window
 CoordMode, Pixel, Window
 
 global START_TIME := 0
-global QUEST_DONE := 0
-global RESET := 0
+global COLLECTION_DONE := 0
+global TOTAL := 0
 
 
 global ID := 0
@@ -19,157 +19,64 @@ Start()
 {	
 	mousegetpos, w1mx, w1my, w1id
 	ID := w1id
-	Tooltip, Starting... Firefox ID: %ID%, 10, 10
-	IACycleRQ()
+	Tooltip, Starting... Firefox ID: %ID%, 10, 40
+	DiamondCycle()
 }
 
-IACycleRQ()
+DiamondCycle()
 {
-	Inc := 0
-	START_TIME := A_TickCount
-	Loop
-	{
-		;; Look for abandonner button
-		if( SearchForColor( 378,587, 378,665, x,y, 0x7F271C, 15, 1000 ) )
-		{
-			Inc:= 0 
-			; Look for the quest ( give button 1 and give button 2 )
-			if (  y > 635 )
-			{
-				if( LookForColorAround( 20,647,0x5c6363, 100, 10, 10 ) )
-				{
-					ClickAbandonner( x, y )
-				}
-				else if( LookForColorAround( 471,528,0xD88E3D, 200, 10, 10 ) )
-				{
-					if ( DoQuest() )
-					{
-						Wait( 100 )
-						total_time := ( A_TickCount - START_TIME ) / 1000
-						QUEST_DONE := QUEST_DONE + 1
-						average := ( total_time / QUEST_DONE )
-						Tooltip, Total done: %QUEST_DONE% Average time: %average% Reset: %RESET%, 10, 10
-					}
-				}
-				else
-				{
-					ClickAbandonner( x, y )
-				}
-			}
-			else
-			{
-				ClickAbandonner( x, y )
-			}
-		
+	StartTime := A_TickCount
+	Loop{
+		;; Search for the button
+		if ( SearchForColor( 1241,631, 1241,719, X, Y, 0x975321, 10, 200 ) )
+		{	
+			Click( X, Y )
+			Wait( 3000 )
+			StartTime := A_TickCount
 		}
 		else
 		{
-			Inc:= Inc + 1
-			if ( Inc > 200 )
+			;; Look the screen isn't greyed out
+			if ( LookForColorAround( 1056,528,0xe5d5ac, 200 ) )
 			{
-				ReadyUp()
-				Inc:= 0
-			}
-		}
-	}
-
-}
-
-ClickAbandonner( x, y )
-{
-	ClickFirefox( x, y )
-	if ( LookForColorAround( 779,502,0x5a2013, 50, 5, 5 ) && LookForColorAround( 856,637,0xdecca0, 50, 5, 5 ) )
-	{
-		ReadyUp()
-	}
-	Wait( 100 )
-
-}
-
-ReadyUp()
-{
-	RESET := RESET + 1
-	WinGetActiveStats, title, t1, t2, t3, t4
-	WinActivate, ahk_id %ID%
-	Loop
-	{
-		
-		; Refresh the page
-		ControlSend,, ^r, ahk_id %ID%
-		Wait( 15000 )
-		
-		; Close boxes
-		ClickFirefox( 546,90 )
-		Wait( 500 )
-		
-		; Close boxes
-		ClickFirefox( 546,90 )
-		Wait( 500 )
-		
-		; Close boxes
-		ClickFirefox( 546,90 )
-		Wait( 2000 )
-		
-		ControlSend,, q, ahk_id %ID%
-		Wait( 4000 )
-		
-		if ( LookForColorAround( 670,159,0xe7d6b6, 50, 10, 10 ) )
-		{
-			; Abandon possible quest
-			Wait( 500 )
-			ClickFirefox( 300,343 )
-			; Abandon possible quest
-			Wait( 500 )
-			ClickFirefox( 300,343 )
-			WinActivate, %title%
-			return
-		}
-		
-	
-	}
-}
-
-DoQuest()
-{
-	Inc:= 0
-	Loop
-	{
-		WaitForColor( 476,536,0xDC9340, 3000 )
-		; Click the first button
-		ClickFirefox( 473,526 )
-		; Click the second button
-		ClickFirefox( 472,594 )
-		
-		; Wait for both green bar
-		if( LookForColorAround( 372,522,0x697D2B, 50) && LookForColorAround( 393,594,0x697D2B, 50 ) )
-		{
-			; Click collecter
-			WaitForColor( 535,553,0x4F791B, 3000 )
-			Loop
-			{
-				ClickFirefox( 572,555 )
-				ClickFirefox( 572,555 )
-				// If abandonner present
-				if( SearchForColor( 236,587, 236,655, x,y, 0x7F271C, 10, 50 ) )
+				if ( A_TickCount > (StartTime + 10000) )
 				{
-					Wait( 50 )
-					return true
+					; Scroll up
+					Click( 1369,635 )
+					Click( 1369,635 )
+					Click( 1369,635 )
+					Click( 1369,635 )
+
+					StartTime := A_TickCount
 				}
-				ClickFirefox( 42,182 )
+			
 			}
+		
 		}
 		
-		ClickFirefox( 42,182 )
-		Inc := Inc + 1
-		if ( Inc > 20 )
+		;; Look for the yellow slowdown banner
+		;if ( LookForColorAround(1431,109,0xffe900, 100 ) )
+		;{
+		;	Click( 1894,106 )
+		;	Wait( 500 )
+		;}
+		
+		;; If the 50 diamonds popup is there
+		if ( LookForColorAround( 862,677,0xd8c497, 200 ) )
 		{
-			return false
-		
+			Click( 958,675 )
+			COLLECTION_DONE += 1
+			TOTAL += 50
+			Tooltip, Done: %COLLECTION_DONE% Total: %TOTAL%, 10, 40
+			Wait( 2000 )
+			StartTime := A_TickCount
 		}
+		
+		
+		
 	}
 
 }
-
 
 Wait( timeout )
 {
@@ -178,7 +85,7 @@ Wait( timeout )
 	Sleep, timeout + t
 }
 
-ClickFirefox( cX, cY )
+Click( cX, cY )
 {
 	PostMessage, 0x200, 0, cX&0xFFFF | cY<<16,, ahk_id %ID% ; WM_MOUSEMOVE
 	PostMessage, 0x201, 0, cX&0xFFFF | cY<<16,, ahk_id %ID% ; WM_LBUTTONDOWN
@@ -366,6 +273,7 @@ PixelSearchB_( ByRef foundX, ByRef foundY, X1, Y1, X2, Y2, RGBColor, range=10 )
 				{
 					break
 				}
+				Sleep, 1
 				Y := Y + 2
 			}
 			X := X + 2
@@ -419,15 +327,15 @@ CallFunc( func, arg1 = -1, arg2 = -1, arg3 = -1, arg4 = -1, arg5 = -1)
 }
 
 
-RAlt & Q::
+RAlt & F2::
 Reload
 return
 
-RAlt & W::
+RAlt & F3::
 Pause
 return
 
-RAlt & E::
+RAlt & F1::
 Start()
 return
 

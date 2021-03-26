@@ -63,6 +63,168 @@ FillArmyWithSelectUnitsSmallScreen()
 }
 
 ;;-----------------------------------------------------------------------------------------------------------------------
+;; SmartReplace
+;;-----------------------------------------------------------------------------------------------------------------------
+
+SmartReplace()
+{
+	units := Clipboard
+	Loop, 10
+	{
+		if ( SubStr(units, 1, 5) == "UNITS" )
+		{
+			break
+		}
+		Wait( 100 )
+		units := Clipboard
+	}
+	
+	;; If there's no units data
+	if ( SubStr(units, 1, 5) != "UNITS" )
+	{
+		msgbox, nope
+		ReplaceArmy()
+		return
+	}
+	
+	Clipboard := ""
+	
+	switch FIGHT_AGE 
+	{
+		case 2:
+			SmartReplaceVirtuel( units )
+		default:
+			ReplaceArmy()
+	}
+	
+}
+
+
+
+SmartReplaceVirtuel( units )
+{
+	ninja := 0
+	rocket := 0
+	
+	Loop, Parse, units, % "|"
+	{
+		if ( A_LoopField == "rocket_troop" )
+		{
+			rocket += 1
+		}
+		else if( A_LoopField == "ninja" )
+		{
+			ninja += 1
+		}
+	}
+	if ( ninja == 0 )
+	{
+		;; Only rockets
+		SmartReplaceWith( "Virtuel", 4, 8 )
+	}
+	else if ( rocket == 0 )
+	{
+		;; 2 ronin 6 voyoux
+		SmartReplaceWith( "Virtuel", 2, 2, 3, 6 )
+	}
+	else
+	{
+		;; 2 char 6 voyoux
+		SmartReplaceWith( "Futur", 2, 2, 3, 6 )
+	}
+}
+
+
+;;  1 |  2  | 3   |   4     |  5
+;;Fast|Heavy|Light|Artillery|Distance
+;; Futur|Virtuel|
+SmartReplaceWith( age, unit_type1, number1, unit_type2="", number2=0 )
+{
+	LookForColorAround( 633,600,0x3D50AC, 2000 )
+	RemoveCurrentUnits()
+	
+	Wait( 50 )
+	
+	;; Click the age panel
+	Click( 1327,601 )
+	
+	;; Wait for the panel to open
+	WaitForColor( 1326,750,0xB4BBCA, 10, 1000 )
+	
+	;; Scroll to the bottom
+	Click( 1325,731 )
+	Wait( 50 )
+	Click( 1325,731 )
+	Wait( 250 )
+
+
+	
+	Wait( 200 )
+	
+	switch age 
+	{
+		case "Futur":
+			Click( 1262,629 )
+			Click( 1262,629 )
+		case "Virtuel":
+			Click( 1259,702 )
+			Click( 1259,702 )
+	}
+	
+	Wait( 50 )
+	
+	switch unit_type1
+	{
+		case 1:
+			Click ( 763,606 )
+		case 2:
+			Click( 806,608 )
+		case 3:
+			Click ( 853,608 )
+		case 4:
+			Click ( 896,612 )
+		case 5:
+			Click ( 939,610 )	
+	}
+	
+	;; Wait for the agepanel to close
+	WaitForColor( 1230,628,0x522E16, 10, 1000 )
+	
+	Wait( 50 )
+	
+	Loop %number1%
+	{
+		Click( 1085,738 )
+	}
+	
+	Wait( 50 )
+	
+	switch unit_type2
+	{
+		case 1:
+			Click ( 763,606 )
+		case 2:
+			Click( 806,608 )
+		case 3:
+			Click ( 853,608 )
+		case 4:
+			Click ( 896,612 )
+		case 5:
+			Click ( 939,610 )	
+	}
+	Wait( 50 )
+	
+	Loop %number2%
+	{
+		Click( 1085,738 )
+	}
+	
+	
+	
+}
+
+
+;;-----------------------------------------------------------------------------------------------------------------------
 ;; RemoveCurrentUnits
 ;;-----------------------------------------------------------------------------------------------------------------------
 
@@ -510,7 +672,16 @@ ReplaceArmySmallScreen()
 
 AutoFight()
 {
-	ReplaceArmy()
+	if ( SMART_FIGHTING )
+	{
+		
+		SmartReplace()
+	}
+	else
+	{
+		ReplaceArmy()
+	}
+	
 	DoFight()	
 }
 
@@ -914,9 +1085,10 @@ AutoFightGvG()
 RemoveFriendsSmallScreen()
 {
 	Loop{
-	ClickSlow( 748,927 )
-	ClickSlow( 868,982 )
-	ClickSlow( 1082,677 )
+		ClickSlow( 748,927 )
+		ClickSlow( 868,982 )
+		ClickSlow( 1082,677 )
+		Wait( 50 )
 	}
 }
 
@@ -1225,16 +1397,7 @@ PutFPS()
 PutFPSWorker(x, y)
 {
 	; Wait for grey to be over
-	Wait( 1000 )
-	WaitForColor( 649,88,0x55361C,10, 3000 )
-
-	; Click the help
-	Wait( 50 )
-	Click( x, y+45)
 	Wait( 500 )
-	
-	; Wait for grey to be over
-	Wait( 1000 )
 	WaitForColor( 649,88,0x55361C,10, 3000 )
 	
 	; Click the gm button
@@ -1243,11 +1406,11 @@ PutFPSWorker(x, y)
 	
 	; Click the first gm
 	ValidateLoop( 604,275,0x652518, 2000, "Click", 1230,473 )
-	Wait( 500 )
+	Wait( 1000 )
 	
 	; Click the 1 pf
 	Click( 762,467 )
-	Wait( 50 )
+	Wait( 250 )
 	
 	; Close the panels
 	Click( 508,89 )
@@ -1437,10 +1600,11 @@ Unlock3and4Loop()
 
 CustomFunction()
 {
+	;SmartReplace()
 	Unlock3and4Loop()
 	;StartArchers()
-	5MinProductionLoop()
-	MouseClicksWhileKeyDown()
+	;5MinProductionLoop()
+	;MouseClicksWhileKeyDown()
 
 	return
 	

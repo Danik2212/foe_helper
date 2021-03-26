@@ -13,6 +13,8 @@ global RQ_SLOTS := 1
 global CONSTRUCTION_SLOTS := 1
 global FRIENDS_TO_REMOVE := 1
 global RQ_LOOP := 0
+global SMART_FIGHTING := 0
+global FIGHT_AGE := 0
 
 ;; Helper GBG section
 global ROGUES_NUMBER := 0

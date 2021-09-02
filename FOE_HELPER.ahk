@@ -1084,11 +1084,17 @@ AutoFightGvG()
 
 RemoveFriendsSmallScreen()
 {
-	Loop{
-		ClickSlow( 748,927 )
-		ClickSlow( 868,982 )
-		ClickSlow( 1082,677 )
-		Wait( 50 )
+	Loop, %FRIENDS_TO_REMOVE%
+	{
+		;; Click the portrait
+		ValidateLoop( 765,982,0x341E0D, 2000, "Click", 741,925 )
+		Wait( 100 )
+		;; Click remove friend
+		ValidateLoop( 871,611,0xE3D3A9, 2000, "Click", 883,979 )
+		Wait( 100 )
+		;; Confirm
+		ValidateLoop( 567,89,0x53351C, 2000, "Click", 1077,679 )
+		Wait( 100 )
 	}
 }
 
@@ -1155,6 +1161,20 @@ Claim50DiamondsSmallScreen()
 			Wait( 3000 )
 			StartTime := A_TickCount
 		}
+		else
+		{
+			if ( LookForColorAround( 950,581,0x5A3A1E, 1000 ) )
+			{
+				if ( A_TickCount > (StartTime + 10000) )
+				{
+					Click( 1361,624 )
+					Click( 1361,624 )
+					Click( 1361,624 )
+					Click( 1361,624 )
+					StartTime := A_TickCount
+				}
+			}
+		}
 		
 		if ( LookForColorAround( 777,672,0xBC9C6B, 1000 ) )
 		{
@@ -1163,19 +1183,7 @@ Claim50DiamondsSmallScreen()
 			StartTime := A_TickCount
 		}
 		
-		if ( LookForColorAround( 950,581,0x5A3A1E, 1000 ) )
-		{
-			if ( A_TickCount > (StartTime + 10000) )
-			{
-				Click( 1361,624 )
-				Click( 1361,624 )
-				Click( 1361,624 )
-				Click( 1361,624 )
-
-				StartTime := A_TickCount
-			}
 		
-		}
 		
 	}
 }

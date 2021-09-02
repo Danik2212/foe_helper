@@ -61,10 +61,16 @@ ElevateAdministrator() {
 
 InitGui(){
 
+	bigScreen := WhichScreenIsIt()
+	
+
 	Gui, Main:New
 	
 	Gui, Add, Text, x10 y12 w80 h20 , Current mode:
 	Gui, Add, DropDownList, x90 y10 w90 h100 gSaveEvent_CURRENT_MODE vCURRENT_MODE Choose%CURRENT_MODE% AltSubmit, Helper|GvG
+	
+	Gui, Add, Text, x190 y12 w80 h20 , Current screen: 
+	Gui, Add, Text, x270 y12 w80 h20 , %bigScreen%
 	
 	Gui, Add, Text, x372 y9 w210 h20 , Alt + Q to restart
 	Gui, Add, Tab, x5 y40 w460 h235 , Helper Config||Helper Hotkeys|GVG Hotkeys
@@ -211,6 +217,7 @@ SaveConfigs()
 	;; GENERAL
 	
 	IniWrite, %CURRENT_MODE%, %fileLocation%, GeneralSection, CURRENT_MODE
+	IniWrite, %CURRENT_SCREEN%, %fileLocation%, GeneralSection, CURRENT_SCREEN
 	
 	
 	;; HELPER CONFIG
@@ -245,6 +252,7 @@ LoadConfigs()
 	;; GENERAL
 	
 	IniRead, CURRENT_MODE, %fileLocation%, GeneralSection, CURRENT_MODE
+	IniRead, CURRENT_SCREEN, %fileLocation%, GeneralSection, CURRENT_SCREEN
 	
 	;; HELPER CONFIG
 	
@@ -364,7 +372,7 @@ FOE_GVG( hotkey )
 		PlaceSiege()
 
 		case "F16": ;Enter
-		PutFPS()
+
 
 		case "F17": ;4
 		AutoFightGvG()
@@ -435,10 +443,10 @@ FOE_HELPER( hotkey )
 		Claim50Diamonds()
 		
 		case "AF15": ;Alt & 3
-		PutFPS()
+
 		
 		case "AF16": ;Alt & Enter
-		RemoveFriendsSmallScreen()
+		
 
 	}
 }
@@ -508,6 +516,8 @@ SaveEvent_UD_ROWS:
 SaveEvent_EDIT_ROWS:
 SaveEvent_UD_WINDOWS:
 SaveEvent_EDIT_WINDOWS:
+
+SaveEvent_CURRENT_SCREEN:
 
 SaveConfigs()
 return

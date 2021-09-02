@@ -561,7 +561,7 @@ DoFightSmallScreen()
 		if ( SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 		;if ( SearchForColor2( 896,770, 934,780, X, Y, 0x55811E, 0x70A525, 15, 50 ) )
 		{	
-			if ( LookForColorAround( 1025,419,0xCCAE68, 100 ) )
+			if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
 			;if ( LookForColorAround( 1018,468,0xCDAF69, 100 ) )
 			{
 				Wait( 100 )
@@ -1062,14 +1062,14 @@ AutoFightGvG()
 		}
 		
 		; Wait for the unit panel
-		LookForColorAround( 633,600,0x3D50AC, 2000 )
+		LookForColorAround( 953,529,0x422610, 2000 )
 		
 		; If there's a missing unit
 		;if( LookForColorAround( 859,529,0x442816, 100 ) )
 		;{
 		;	ReplaceArmy()
 		;}
-		ReplaceArmy()
+		;ReplaceArmy()
 		DoFight()
 		Send, {Escape}
 		Wait( 50 )
@@ -1158,7 +1158,7 @@ Claim50DiamondsSmallScreen()
 		
 		if ( LookForColorAround( 777,672,0xBC9C6B, 1000 ) )
 		{
-			Click( 947,666 )
+			Click( 968,711 )
 			Wait( 2000 )
 			StartTime := A_TickCount
 		}

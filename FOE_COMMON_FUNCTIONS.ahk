@@ -29,6 +29,18 @@ IsItBigScreen()
 	return BIG_SCREEN == 1
 }
 
+WhichScreenIsIt()
+{
+	bigScreen := IsItBigScreen()
+	if ( bigScreen == 0 ){
+		bigScreen := "Small screen"
+	}
+	else{
+		bigScreen := "Big screen"
+	}
+	return bigScreen
+}
+
 Wait( timeout)
 {
 	Sleep, timeout

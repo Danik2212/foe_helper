@@ -18,7 +18,7 @@ SetDefaultMouseSpeed 2
 
 GetHelperFunctionsList()
 {
-	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|ReplaceArmy"
+	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|ReplaceArmy|Claim50Diamonds"
 
 }
 
@@ -1065,11 +1065,10 @@ AutoFightGvG()
 		LookForColorAround( 953,529,0x422610, 2000 )
 		
 		; If there's a missing unit
-		;if( LookForColorAround( 859,529,0x442816, 100 ) )
-		;{
-		;	ReplaceArmy()
-		;}
-		;ReplaceArmy()
+		if( LookForColorAround( 857,531,0x422714, 100 ) )
+		{
+			ReplaceArmy()
+		}
 		DoFight()
 		Send, {Escape}
 		Wait( 50 )

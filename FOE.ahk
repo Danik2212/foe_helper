@@ -118,7 +118,7 @@ InitGui(){
 		Gui, Add, DropDownList, x355 y145 w90  h200 gSaveEvent_DD_UNIT_TYPE vUNIT_TYPE Choose%UNIT_TYPE%  AltSubmit, Fast|Heavy|Light|Artillery|Distance
 								
 		Gui, Add, Text,         x245 y170 w120 h20  , Fighting age:
-		Gui, Add, DropDownList, x355 y170 w90  h200 gSaveEvent_FIGHT_AGE vFIGHT_AGE Choose%FIGHT_AGE%  AltSubmit, Iron|Virtual|						
+		Gui, Add, DropDownList, x355 y170 w90  h200 gSaveEvent_FIGHT_AGE vFIGHT_AGE Choose%FIGHT_AGE%  AltSubmit, Iron|Virtual|MarsRush|Mars						
 		
 		Gui, Add, Text,         x245 y205 w120 h20 , GvG section
 									
@@ -242,6 +242,56 @@ SaveConfigs()
 	; Hotkeys Section
 	IniWrite, %HELPER_HOTKEY_1%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_1
 	IniWrite, %HELPER_HOTKEY_FUNCTION_1%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_1
+	
+	; Hotkeys Section
+	IniWrite, %HELPER_HOTKEY_1%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_1
+	IniWrite, %HELPER_HOTKEY_FUNCTION_1%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_1
+	
+	IniWrite, %HELPER_HOTKEY_2%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_2
+	IniWrite, %HELPER_HOTKEY_FUNCTION_2%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_2
+	
+	IniWrite, %HELPER_HOTKEY_3%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_3
+	IniWrite, %HELPER_HOTKEY_FUNCTION_3%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_3
+	
+	IniWrite, %HELPER_HOTKEY_4%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_4
+	IniWrite, %HELPER_HOTKEY_FUNCTION_4%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_4
+	
+	IniWrite, %HELPER_HOTKEY_5%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_5
+	IniWrite, %HELPER_HOTKEY_FUNCTION_5%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_5
+	
+	IniWrite, %HELPER_HOTKEY_6%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_6
+	IniWrite, %HELPER_HOTKEY_FUNCTION_6%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_6
+	
+	IniWrite, %HELPER_HOTKEY_7%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_7
+	IniWrite, %HELPER_HOTKEY_FUNCTION_7%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_7
+	
+	IniWrite, %HELPER_HOTKEY_8%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_8
+	IniWrite, %HELPER_HOTKEY_FUNCTION_8%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_FUNCTION_8
+	
+	
+	IniWrite, %GVG_HOTKEY_1%, %fileLocation%, HotkeysSection, GVG_HOTKEY_1
+	IniWrite, %GVG_HOTKEY_FUNCTION_1%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_1
+	
+	IniWrite, %GVG_HOTKEY_2%, %fileLocation%, HotkeysSection, GVG_HOTKEY_2
+	IniWrite, %GVG_HOTKEY_FUNCTION_2%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_2
+	
+	IniWrite, %GVG_HOTKEY_3%, %fileLocation%, HotkeysSection, GVG_HOTKEY_3
+	IniWrite, %GVG_HOTKEY_FUNCTION_3%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_3
+	
+	IniWrite, %GVG_HOTKEY_4%, %fileLocation%, HotkeysSection, GVG_HOTKEY_4
+	IniWrite, %GVG_HOTKEY_FUNCTION_4%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_4
+	
+	IniWrite, %GVG_HOTKEY_5%, %fileLocation%, HotkeysSection, GVG_HOTKEY_5
+	IniWrite, %GVG_HOTKEY_FUNCTION_5%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_5
+	
+	IniWrite, %GVG_HOTKEY_6%, %fileLocation%, HotkeysSection, GVG_HOTKEY_6
+	IniWrite, %GVG_HOTKEY_FUNCTION_6%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_6
+	
+	IniWrite, %GVG_HOTKEY_7%, %fileLocation%, HotkeysSection, GVG_HOTKEY_7
+	IniWrite, %GVG_HOTKEY_FUNCTION_7%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_7
+	
+	IniWrite, %GVG_HOTKEY_8%, %fileLocation%, HotkeysSection, GVG_HOTKEY_8
+	IniWrite, %GVG_HOTKEY_FUNCTION_8%, %fileLocation%, HotkeysSection, GVG_HOTKEY_FUNCTION_8
 	
 }
 

@@ -18,7 +18,11 @@ SetDefaultMouseSpeed 2
 
 GetHelperFunctionsList()
 {
+<<<<<<< Updated upstream
 	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|ReplaceArmy|Claim50Diamonds"
+=======
+	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|PutFPS|Claim50Diamonds|CustomFunction"
+>>>>>>> Stashed changes
 
 }
 
@@ -93,6 +97,10 @@ SmartReplace()
 	{
 		case 2:
 			SmartReplaceVirtuel( units )
+		case 3:
+			SmartReplaceMarsRush( units )
+		case 4:
+			SmartReplaceMars( units )
 		default:
 			ReplaceArmy()
 	}
@@ -134,41 +142,150 @@ SmartReplaceVirtuel( units )
 	}
 }
 
+SmartReplaceMarsRush( units )
+{
+	sents := 0
+	sniper := 0
+	wardens := 0
+	
+	Loop, Parse, units, % "|"
+	{
+		if ( A_LoopField == "steel_warden" )
+		{
+			wardens += 1
+		}
+		else if( A_LoopField == "sentinel" )
+		{
+			sents += 1
+		}
+		else if( A_LoopField == "sniperbot" )
+		{
+			sniper += 1
+		}
+	}
+	if ( sniper > 1 && sents > 1 && tesla == 0 )
+	{
+		SmartReplaceWith( "Mars", 1, sents - 1, 3, 8 )
+	}
+	else if ( sents > 1 && sniper < 2 )
+	{
+		;; 2 steel 6 voyoux
+		SmartReplaceWith( "Mars", 2, 2, 3, 6 )
+	}
+	else if ( sniper > 1 )
+	{
+		;; 8 sents
+		SmartReplaceWith( "Mars", 1, 8 )
+	}
+	else
+	{
+		;; 2 steel 6 voyoux
+		SmartReplaceWith( "Mars", 2, 2, 3, 6 )
+	}
+}
+
+
+SmartReplaceMars( units )
+{
+	sents := 0
+	sniper := 0
+	wardens := 0
+	tesla := 0
+	
+	Loop, Parse, units, % "|"
+	{
+		if ( A_LoopField == "steel_warden" )
+		{
+			wardens += 1
+		}
+		else if( A_LoopField == "sentinel" )
+		{
+			sents += 1
+		}
+		else if( A_LoopField == "sniperbot" )
+		{
+			sniper += 1
+		}
+		else if ( A_LoopField == "tesla_walker" )
+		{
+			tesla += 1
+		}
+	}
+	if ( sniper > 1 && sents > 1 && tesla == 0 )
+	{
+		SmartReplaceWith( "Mars", 1, sents - 1, 3, 8 )
+	}
+	else if ( sents > 1 && sniper < 2 )
+	{
+		;; 2 steel 6 voyoux
+		SmartReplaceWith( "Mars", 2, 2, 3, 6 )
+	}
+	else if ( sents == 0 && tesla == 0 )
+	{
+		;; Only rockets
+		SmartReplaceWith( "Virtuel", 4, 8 )
+	}
+	else if ( sniper > 1 )
+	{
+		;; 8 sents
+		SmartReplaceWith( "Mars", 1, 8 )
+	}
+	else if ( sents == 0 && wardens > 7 )
+	{
+		;; 8 tesla
+		SmartReplaceWith( "Mars", 4, 8 )
+	}
+	else
+	{
+		;; 2 steel 6 voyoux
+		SmartReplaceWith( "Mars", 2, 2, 3, 6 )
+	}
+}
+
 
 ;;  1 |  2  | 3   |   4     |  5
 ;;Fast|Heavy|Light|Artillery|Distance
 ;; Futur|Virtuel|
 SmartReplaceWith( age, unit_type1, number1, unit_type2="", number2=0 )
 {
+	RUSH_MODE := 0
+	if ( FIGHT_AGE == 3 )
+	{
+		RUSH_MODE := 1
+	}
 	LookForColorAround( 633,600,0x3D50AC, 2000 )
 	RemoveCurrentUnits()
 	
 	Wait( 50 )
 	
-	;; Click the age panel
-	Click( 1327,601 )
 	
-	;; Wait for the panel to open
-	WaitForColor( 1326,750,0xB4BBCA, 10, 1000 )
-	
-	;; Scroll to the bottom
-	Click( 1325,731 )
-	Wait( 50 )
-	Click( 1325,731 )
-	Wait( 250 )
-
-
-	
-	Wait( 200 )
-	
-	switch age 
+	if ( RUSH_MODE == 0 )
 	{
-		case "Futur":
-			Click( 1262,629 )
-			Click( 1262,629 )
-		case "Virtuel":
-			Click( 1259,702 )
-			Click( 1259,702 )
+		;; Click the age panel
+		Click( 1327,601 )
+		
+		;; Wait for the panel to open
+		WaitForColor( 1326,750,0xB4BBCA, 10, 1000 )
+		
+		;; Scroll to the bottom
+		Click( 1325,731 )
+		Wait( 50 )
+		Click( 1325,731 )
+		Wait( 250 )
+		Wait( 200 )
+		
+		switch age 
+		{
+			case "Futur":
+				Click( 1262,629 )
+				Click( 1262,629 )
+			case "Virtuel":
+				Click( 1259,702 )
+				Click( 1259,702 )
+			case "Mars":
+				Click( 1193,729 )
+				Click( 1193,729 )
+		}
 	}
 	
 	Wait( 50 )
@@ -187,8 +304,11 @@ SmartReplaceWith( age, unit_type1, number1, unit_type2="", number2=0 )
 			Click ( 939,610 )	
 	}
 	
-	;; Wait for the agepanel to close
-	WaitForColor( 1230,628,0x522E16, 10, 1000 )
+	if ( RUSH_MODE == 0 )
+	{
+		;; Wait for the agepanel to close
+		WaitForColor( 1230,628,0x522E16, 10, 1000 )
+	}
 	
 	Wait( 50 )
 	
@@ -571,6 +691,7 @@ DoFightSmallScreen()
 			}
 			
 		}
+	
 	}
 	
 }
@@ -1101,6 +1222,9 @@ RemoveFriendsSmallScreen()
 ;; Claim50DiamondsSmallScreen
 ;;-----------------------------------------------------------------------------------------------------------------------
 
+global 50D_COLLECTION_DONE := 0
+global 50D_TOTAL := 0
+
 Claim50Diamonds()
 {
 	if ( IsItBigScreen() )
@@ -1128,6 +1252,9 @@ Claim50DiamondsBigScreen()
 		if ( LookForColorAround( 1508,644,0x530B0B, 1000 ) )
 		{
 			Click( 1704,843 )
+			50D_COLLECTION_DONE += 1
+			50D_TOTAL += 50
+			Tooltip, Done: %50D_COLLECTION_DONE% Total: %50D_TOTAL%, 10, 40
 			Wait( 2000 )
 			StartTime := A_TickCount
 		}
@@ -1157,6 +1284,9 @@ Claim50DiamondsSmallScreen()
 		if ( SearchForColor( 1227,620, 1256,698, X, Y, 0x975321, 10, 1000 ) )
 		{
 			Click( X, Y )
+			50D_COLLECTION_DONE += 1
+			50D_TOTAL += 50
+			Tooltip, Done: %50D_COLLECTION_DONE% Total: %50D_TOTAL%, 10, 40
 			Wait( 3000 )
 			StartTime := A_TickCount
 		}
@@ -1337,6 +1467,23 @@ MouseClicksWhileKeyDown()
 		Wait( r )
 	}
 }
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; RemoveAndReplaceSiege()
+;;-----------------------------------------------------------------------------------------------------------------------
+
+RemoveAndReplaceSiege()
+{
+	Click( 653,773 )
+	Wait( 25 )
+	Click( 1100,456 )
+	Wait( 25 )
+	Click( 1091,673 )
+	Wait( 25 )
+	PlaceSiege()
+
+}
+
 
 HelpAll()
 {
@@ -1607,8 +1754,8 @@ Unlock3and4Loop()
 
 CustomFunction()
 {
-	;SmartReplace()
-	Unlock3and4Loop()
+	SmartReplace()
+	;Unlock3and4Loop()
 	;StartArchers()
 	;5MinProductionLoop()
 	;MouseClicksWhileKeyDown()

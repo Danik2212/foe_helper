@@ -18,11 +18,8 @@ SetDefaultMouseSpeed 2
 
 GetHelperFunctionsList()
 {
-<<<<<<< Updated upstream
-	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|ReplaceArmy|Claim50Diamonds"
-=======
+
 	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|PutFPS|Claim50Diamonds|CustomFunction"
->>>>>>> Stashed changes
 
 }
 

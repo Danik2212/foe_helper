@@ -484,10 +484,10 @@ FOE_HELPER( hotkey )
 		ReplaceArmy()
 		
 		case "F23": ;9
-		CustomFunction()
+		CancelQuests()
 		
 		case "AF13": ;Alt & 1
-		
+		CustomFunction()
 		
 		case "AF14": ;Alt & 2
 		Claim50Diamonds()

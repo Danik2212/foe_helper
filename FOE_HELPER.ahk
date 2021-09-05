@@ -941,6 +941,142 @@ CancelQuests()
 }
 
 
+
+
+
+; Quest to complete
+; 933122
+; 933125
+
+
+; Quest for battle
+; 933131
+; 933132
+
+
+AutoQuestAndBattle()
+{
+
+
+
+
+}
+
+
+
+
+GetProperQuestState()
+{
+	Loop
+	{
+		; First of all, put the quest in the right order
+		; Close the quest panel
+		ValidateLoop( 549,89,0x4F2F17, 2000, "Click", 548,90 )
+		
+		wait( 1000 )
+		
+		; Open the quest panel
+		ValidateLoop( 663,144,0xE7D6B6, 2000, "Click", 30,242 )
+		
+		questsArray := []
+		quests := Clipboard
+		Loop, Parse, quests, % "|"
+		{
+			quest := A_LoopField
+			questsArray.Push( IsAGoodQuest( quest ) )
+		}
+		
+		if ( ( questsArray[1] == 1 ) and ( questsArray[2] == 1 ) and ( questsArray[3] == 1 ) ) return
+		
+		if ( ( questsArray[1] == 2 ) or ( questsArray[2] == 2 ) or ( questsArray[3] == 2 ) )
+		{
+			X1:=0
+			; Collect rewards
+			SearchForColor( 514,279,639,415, X1, Y1, 0x537F1D, 5, 100 )		
+			
+			if( X1 != 0 )
+			{
+				Click( X1, Y1 )
+			}
+			
+			continue
+		}
+		msgbox, % questsArray[1] questsArray[2] questsArray[3]
+		if ( questsArray[1] == 0 )
+		{
+			X2:=0
+			SearchForColor( 225,383,242,539, X2, Y2, 0x82281C, 5, 100 )
+			if( X2 != 0 )
+			{
+				Click( X2, Y2 )
+			}
+			
+			continue
+		}
+		
+		if ( questsArray[2] == 0 )
+		{
+			X3:=0
+			SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 100 )
+			if( X3 != 0 )
+			{
+				Click( X3, Y3 )
+			}
+			
+			else
+			{
+				; Scroll down a little
+				Click( 655,313 )
+				Wait( 500 )
+				msgbox, not found
+				SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 100 )
+				if( X3 != 0 )
+				{
+					Click( X3, Y3 )
+				}
+			}
+			
+			continue
+		}
+		
+	}
+	
+}
+
+
+IsAGoodQuest( quest )
+{		
+	if ( ( quest == "933122(collectReward)" ) or ( quest == "933125(collectReward)" ) )
+	{
+		return 2
+	}
+	if ( ( quest == "933122(accepted)" ) or ( quest == "933125(accepted)" ) or ( quest == "933131(accepted)" ) or ( quest == "933132(accepted)" ) )
+	{
+		return 1
+	}
+	return 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;;-----------------------------------------------------------------------------------------------------------------------
 ;; VerifyAbandonner2
 ;;-----------------------------------------------------------------------------------------------------------------------
@@ -1615,11 +1751,7 @@ Unlock3and4Loop()
 
 CustomFunction()
 {
-	;SmartReplace()
-	Unlock3and4Loop()
-	;StartArchers()
-	;5MinProductionLoop()
-	;MouseClicksWhileKeyDown()
+	GetProperQuestState()
 
 	return
 	

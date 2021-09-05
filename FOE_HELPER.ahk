@@ -905,34 +905,41 @@ RecuringQuest2()
 			
 			Click( 1189,463 )
 			Wait( 100 )
-			Send, 139
+			Send, 200
 			
 			MouseMove, 1205,473 
 			return
 		}
-		ValidateLoop( 658,147,0xE5D3B1, 50, "Click", 637,144 )
-		X2:=0
-		X3:=0
-		SearchForColor( 226,320,256,418, X2, Y2, 0x82281C, 5, 100 )
-		SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 100 )
-
-		if( X3 != 0 )
-		{
-			Click( X3, Y3 )
-		}
-		if( X2 != 0 )
-		{
-			Click( X2, Y2 )
-		}
-		if ( Inc == 4 )
-		{
-			Wait( 500 )
-		}
-		MouseMove, 229,378
+		CancelQuests()
 			
 	}
 
 }
+
+CancelQuests()
+{
+	ValidateLoop( 658,147,0xE5D3B1, 50, "Click", 637,144 )
+	X2:=0
+	X3:=0
+	SearchForColor( 226,220,256,418, X2, Y2, 0x82281C, 5, 100 )
+	SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 100 )
+
+	if( X3 != 0 )
+	{
+		Click( X3, Y3 )
+	}
+	if( X2 != 0 )
+	{
+		Click( X2, Y2 )
+	}
+	if ( Inc == 4 )
+	{
+		Wait( 500 )
+	}
+	MouseMove, 229,378
+
+}
+
 
 ;;-----------------------------------------------------------------------------------------------------------------------
 ;; VerifyAbandonner2

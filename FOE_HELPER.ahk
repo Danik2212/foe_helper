@@ -4,6 +4,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 
 #include %A_LineFile%\..\FOE_COMMON_FUNCTIONS.ahk
 #include %A_LineFile%\..\FOE_GLOBALS.ahk
+#include %A_LineFile%\..\FindClick.ahk
 
 SetBatchLines -1
 
@@ -668,25 +669,48 @@ DoFightSmallScreen()
 	Click( 931,814 )
 	Wait( 250 )
 	Loop{
-		if ( 2fights && SearchForColor2( 884,815, 917,823, X, Y, 0xB47622, 0x995423, 10, 50 ) )
+		if ( NO_RANKS )
 		{
-			Wait( 100 )
-			Click( X,Y+3 )
-			Wait( 100 )
-		}
-		
-		if ( SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
-		;if ( SearchForColor2( 896,770, 934,780, X, Y, 0x55811E, 0x70A525, 15, 50 ) )
-		{	
-			if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
-			;if ( LookForColorAround( 1018,468,0xCDAF69, 100 ) )
+			if ( 2fights && SearchForColor2( 884,815, 917,823, X, Y, 0xB47622, 0x995423, 10, 50 ) )
 			{
 				Wait( 100 )
 				Click( X,Y+3 )
 				Wait( 100 )
-				return
 			}
-			
+		
+			if ( SearchForColor2( 884,761, 941,791, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+			{	
+				if ( LookForColorAround( 1044,371,0xFEFADF, 100 ) )
+				{
+					Wait( 100 )
+					Click( X,Y+3 )
+					Wait( 100 )
+					return
+				}
+				
+			}
+		}
+		else
+		{
+			if ( 2fights && SearchForColor2( 884,815, 917,823, X, Y, 0xB47622, 0x995423, 10, 50 ) )
+			{
+				Wait( 100 )
+				Click( X,Y+3 )
+				Wait( 100 )
+			}
+		
+			if ( SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+			{	
+				if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
+				{
+					Wait( 100 )
+					Click( X,Y+3 )
+					Wait( 100 )
+					return
+				}
+				
+			}
+		
 		}
 	
 	}
@@ -748,10 +772,10 @@ ReplaceArmyBigScreen()
 
 ReplaceArmySmallScreen()
 {
-	;WaitForColor( 648,627,0x2C3978, 10, 2000 )
+
 	LookForColorAround( 633,600,0x3D50AC, 2000 )
 	RemoveCurrentUnits()
-	Wait( 50 )
+	;Wait( 50 )
 	
 	switch UNIT_TYPE
 	{
@@ -766,14 +790,14 @@ ReplaceArmySmallScreen()
 		case 5:
 			Click ( 939,610 )	
 	}
-	Wait( 50 )
+	;Wait( 50 )
 	Loop %UNITS_NUMBER%
 	{
 		Click( 1294,664 )
 	}
 	
 	Click ( 850,606 )	
-	Wait( 50 )
+	;Wait( 50 )
 	
 	Loop %ROGUES_NUMBER%
 	{
@@ -1310,23 +1334,23 @@ AutoFightGvG()
 		Loop
 		{
 			Click( X, Y )
-			if ( LookForColorAround( X+180,Y+14,0x573319, 100 ) )
+			if ( LookForColorAround( X+180,Y+14,0x573319, 50 ) )
 			{
 				Click( X+87, Y-14 )
 				Wait( 100 )
 				break
 			}
-			if ( LookForColorAround( 633,600,0x3D50AC, 2000 ) )
+			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
 			{
 				break
 			}
 		}
-		
+
 		; Wait for the unit panel
-		LookForColorAround( 953,529,0x422610, 2000 )
+		LookForColorAround( 632,395,0x342E2C , 2000 )
 		
 		; If there's a missing unit
-		if( LookForColorAround( 857,531,0x422714, 100 ) )
+		if( LookForColorAround( 857,531,0x422714, 50 ) )
 		{
 			ReplaceArmy()
 		}
@@ -1523,56 +1547,21 @@ ReplaceWithBestFastUnitsSmallScreen()
 {
 	Loop
 	{
-		Click( 1033,401 )
-		Loop 30
-		{
-			Start5MinProduction()
-			Wait( 1000 )
-		}
+		;Click( 1033,401 )
+		;Loop 30
+		;{
+		;	Start5MinProduction()
+		;	Wait( 1000 )
+		;}
 		
-		Click( 83,52 )
-		Wait( 1000 * 30 )
+
+		;if ( SearchForColor( 810,369, 1498,726, X, Y, 0x753C22, 10, 1000 ) )
+		;{
+		;	Click( X, Y - 20 )
+		;	Wait( 1000 )
+		;}
 		
-		Loop 30
-		{
-			Click( 537,86 )
-			Wait( 1000 )
-		}
 		
-		; Click on the colony
-		Click( 1213,259 )
-		Wait( 1000 )
-		Click( 1213,259 )
-		Wait( 1000 )
-		
-		Wait( 1000 * 60 )
-		
-		Click( 537,86 )
-		Wait( 1000 )
-		Click( 537,86 )
-		Wait( 1000 )
-		Click( 537,86 )
-		Wait( 1000 )
-		
-		Wait( 1000 * 60 )
-		Wait( 1000 * 60 )
-		Wait( 1000 * 50 )
-	
-		Click(1044,405)
-		Wait(1000)
-		
-		Click(1317,288)		
-		Wait(1000)
-		
-		Click(1409,330)
-		Wait(1000)
-		
-		Click(1507,378)
-		Wait(1000)
-		
-		Click(1600,424)
-		Wait(1000)
-	
 		
 	}
 
@@ -1776,116 +1765,7 @@ CheckForAvailableSlotAndFill( X, Y )
 	return 0
 }
 
-IARQCycle()
-{
-	Loop
-	{
-	
-		Loop
-		{	
-			;ValidateLoop( 658,147,0xE5D3B1, 50, "Click", 637,144 )
-			X2:=0
-			X3:=0
-			SearchForColor( 225,551,226,663, X, Y, 0x82281C, 5, 100 )
-		
-			if( X != 0 )
-			{
-				if ( Y > 620 )
-				{
-					if ( LookForColorAround( 469,521,0xD48F41, 250 ) )
-					{
-						break
-					}
-				}
-				Click( X, Y )
-			}
-			Click( 531,223 ) 	
-		}
-		
-		ValidateLoop( 524,543,0x507B1B, 500, "IAClickBoth" )
-		Wait( 50 )
-		
-		Click( 531,223 ) 
-		Click( 531,223 ) 
-		
-		ValidateLoop( 13,589,0x555C5D, 500, "Click", 569,542 )
-		Wait( 50 )
-		
-		Click( 531,223 ) 
-		Click( 531,223 ) 
-	}
-}
 
-
-StartArchers()
-{
-	XS := 400
-	XE := 1837
-	YS := 135
-	YE := 970
-	Lines := 4
-	Rows := 4
-	Boxes := Lines * Rows
-	Inc := 0
-	Loop
-	{
-		SearchX := XS
-		SearchY := YS
-		SearchXEnd :=XE
-		SearchYEnd := YE
-		if( SearchForColor( SearchX,SearchY,SearchXEnd,SearchYEnd, X, Y, 0xBB9966, 0, 200 ) )
-		{
-			if( LookForColorAround( X+17,Y+8,0xAA9966, 5, 5 ) && LookForColorAround( X+10,Y+14,0x444433, 5, 5 ) )
-			{
-				Click( X,Y+100 )
-				Wait( 50 )
-				Loop, 2
-				{
-					Send, 1
-					Send, 2
-					Send, 3
-					Send, 4
-					Wait( 300 )
-					Click( 936,145 )
-					Wait( 50 )
-					Click( 986,151 )
-					Click( 986,151 )
-				}
-			}
-		}
-		Inc := Inc + 1
-		if ( Inc == Boxes )
-		{
-			Inc := 0
-		}
-	}
-
-}
-
-
-IAClickBoth()
-{
-	Click( 466,510 )
-	Click( 460,583 )
-
-}
-
-Unlock3and4Loop()
-{
-	Loop{
-	
-		if( LookForColorAround( 1215,282,0x632418, 50 ) && LookForColorAround( 1087,774,0xDDD0A2, 50 ) )
-		{
-			Click( 1007,634 )
-			Wait( 100 )
-			Click( 1166,636 )
-			Wait( 100 )
-			Send, {Escape}
-			Send, {Escape}
-		}
-	}
-
-}
 
 
 ;;-----------------------------------------------------------------------------------------------------------------------
@@ -1894,7 +1774,22 @@ Unlock3and4Loop()
 
 CustomFunction()
 {
-	GetProperQuestState()
+	;FindClick()
+	Loop
+	{
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o5 x0 y+80" )
+		Send, 1
+		Sleep, 500
+		if ( Mod( A_Index, 10 )== 0 )
+		{
+			Send, {esc}
+		}
+	}
+	;5MinProductionLoop()
+
+	;ImageSearch, FoundX, FoundY, 584,355, 1476,827, *10 C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png
+	;MouseMove, FoundY, FoundY
 
 	return
 	

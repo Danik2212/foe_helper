@@ -102,6 +102,8 @@ InitGui(){
 		
 		Gui, Add, CheckBox,     x20  y220 w200 h20   gSaveEvent_RED_DOT vRED_DOT Checked%RED_DOT%, Red dot
 		
+		Gui, Add, CheckBox,     x20  y245 w200 h20   gSaveEvent_NO_RANKS vNO_RANKS Checked%NO_RANKS%, No ranks
+		
 		; Right side
 		
 		Gui, Add, Text,         x245 y70 w120 h20 , GBG section
@@ -234,10 +236,13 @@ SaveConfigs()
 	IniWrite, %ROGUES_NUMBER%, %fileLocation%, HelperGBGSection, ROGUES_NUMBER
 	IniWrite, %UNITS_NUMBER%, %fileLocation%, HelperGBGSection, UNITS_NUMBER
 	IniWrite, %UNIT_TYPE%, %fileLocation%, HelperGBGSection, UNIT_TYPE
+	IniWrite, %NO_RANKS%, %fileLocation%, HelperGVGSection, NO_RANKS
 	
 	; GVG Section
 	IniWrite, %SIEGE_AGE%, %fileLocation%, HelperGVGSection, SIEGE_AGE
 	IniWrite, %RED_DOT%, %fileLocation%, HelperGVGSection, RED_DOT
+	
+	
 	
 	; Hotkeys Section
 	IniWrite, %HELPER_HOTKEY_1%, %fileLocation%, HotkeysSection, HELPER_HOTKEY_1
@@ -318,10 +323,12 @@ LoadConfigs()
 	IniRead, ROGUES_NUMBER, %fileLocation%, HelperGBGSection, ROGUES_NUMBER
 	IniRead, UNITS_NUMBER, %fileLocation%, HelperGBGSection, UNITS_NUMBER
 	IniRead, UNIT_TYPE, %fileLocation%, HelperGBGSection, UNIT_TYPE
+	IniRead, NO_RANKS, %fileLocation%, HelperGVGSection, NO_RANKS
 	
 	; GVG Section
 	IniRead, SIEGE_AGE, %fileLocation%, HelperGVGSection, SIEGE_AGE
 	IniRead, RED_DOT, %fileLocation%, HelperGVGSection, RED_DOT
+	
 	
 	; Hotkeys Section
 	IniRead, HELPER_HOTKEY_1, %fileLocation%, HotkeysSection, HELPER_HOTKEY_1
@@ -550,6 +557,7 @@ SaveEvent_UD_FRIENDS_TO_REMOVE:
 SaveEvent_EDIT_FRIENDS_TO_REMOVE:
 SaveEvent_CB_SMART_FIGHTING:
 SaveEvent_RED_DOT:
+SaveEvent_NO_RANKS:
 SaveEvent_FIGHT_AGE:
 
 SaveEvent_UD_ROGUES_NUMBER:

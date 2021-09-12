@@ -668,6 +668,7 @@ DoFightSmallScreen()
 	
 	Click( 931,814 )
 	Wait( 250 )
+	start := A_TickCount
 	Loop{
 		if ( NO_RANKS )
 		{
@@ -712,6 +713,9 @@ DoFightSmallScreen()
 			}
 		
 		}
+		
+		if ( ( A_TickCount - start ) > 5000 ) 
+			return
 	
 	}
 	
@@ -1085,123 +1089,222 @@ CancelQuests()
 
 
 
-
-; Quest to complete
-; 933122
-; 933125
-
-
-; Quest for battle
-; 933131
-; 933132
-
-
-AutoQuestAndBattle()
+ResetToQuestPanel()
 {
-
-
-
+	Click( 86,52 )
+	Wait( 3000 )
+	WaitForColor( 501,87,0x53341A, 10, 10000 )
+	Click( 489,85 )
+	Wait( 500 )
+	Click( 489,85 )
+	Wait( 500 )
+	Send, q
+	Wait( 1000 )
+	WaitForColor( 663,142,0xE7D6B6, 10, 3000 )
 
 }
 
 
+AutoQuestAndBattle()
+{
+	Loop
+	{
+		GetProperQuestState()
+		ScrollToTheBottomOfQuest()
+		
+		; Click the fight button
+		X:=0
+		SearchForColor( 445,366,488,456, X, Y, 0xA15B26, 5, 5000 )
+		if( X != 0 )
+		{
+			Click( X, Y )
+			wait( 500 )
+		}
+
+		AutoFight()
+		
+		; Cancel the quest now
+		SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 3000 )
+		if( X3 != 0 )
+		{
+			ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
+			wait( 500 )
+		}
+		
+	}
+}
+
+Tabs()
+{
+	Send %A_Tab%
+	Send %A_Tab%
+	Send %A_Tab%
+}
 
 
 GetProperQuestState()
 {
 	Loop
 	{
+		; Click the top panel of quest
+		Click( 25,148 )
+		
 		; First of all, put the quest in the right order
 		; Close the quest panel
-		ValidateLoop( 549,89,0x4F2F17, 2000, "Click", 548,90 )
+		ValidateLoopFunc( 626,167,0xCAA555, 2000, "ResetToQuestPanel", "Tabs" )
+		Wait( 500 )
 		
-		wait( 1000 )
+		start := A_TickCount
+		Loop{
 		
-		; Open the quest panel
-		ValidateLoop( 663,144,0xE7D6B6, 2000, "Click", 30,242 )
-		
+			if ( (  A_TickCount - start ) > 5000 )
+			{
+				ResetToQuestPanel()
+			}
+			if ( Clipboard == "" )
+			{
+				wait( 25 )
+			}
+			else
+			{
+				break
+			}
+		}
 		questsArray := []
-		quests := Clipboard
-		Loop, Parse, quests, % "|"
+		quests := []
+		questsText := Clipboard
+		Clipboard := ""
+		Loop, Parse, questsText, % "|"
 		{
 			quest := A_LoopField
 			questsArray.Push( IsAGoodQuest( quest ) )
+			quests.Push( quest )
 		}
-		
-		if ( ( questsArray[1] == 1 ) and ( questsArray[2] == 1 ) and ( questsArray[3] == 1 ) ) return
-		
-		if ( ( questsArray[1] == 2 ) or ( questsArray[2] == 2 ) or ( questsArray[3] == 2 ) )
+		;msgbox, % questsArray[1] questsArray[2] questsArray[3]
+		if ( ( questsArray[1] == 1 ) or ( questsArray[2] == 1 ) or ( questsArray[3] == 1 ) )
 		{
 			X1:=0
+			ValidateLoopFunc( 626,167,0xCAA555, 2000, "ResetToQuestPanel", "Tabs" )
+			Wait( 500 )
+			
 			; Collect rewards
 			SearchForColor( 514,279,639,415, X1, Y1, 0x537F1D, 5, 100 )		
 			
 			if( X1 != 0 )
 			{
-				Click( X1, Y1 )
-			}
-			
-			continue
-		}
-		msgbox, % questsArray[1] questsArray[2] questsArray[3]
-		if ( questsArray[1] == 0 )
-		{
-			X2:=0
-			SearchForColor( 225,383,242,539, X2, Y2, 0x82281C, 5, 100 )
-			if( X2 != 0 )
-			{
-				Click( X2, Y2 )
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X1, Y1 )
 			}
 			
 			continue
 		}
 		
-		if ( questsArray[2] == 0 )
+
+		if ( DoesQuestNeedToBeCancel( questsArray, questsArray[1] ) )
+		{
+			X2:=0
+			SearchForColor( 225,317,267,571, X2, Y2, 0x82281C, 5, 100 )
+			if( X2 != 0 )
+			{
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X2, Y2 )
+			}
+			
+			continue
+		}
+		; if second quest is visible, cancel it
+		if ( ( DoesQuestNeedToBeCancel( questsArray, questsArray[2] ) ) and ( IsQuestALongOne( quests[1] ) == 0 ) and ( IsQuestALongOne( quests[2] ) == 0 ) )
 		{
 			X3:=0
 			SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 100 )
 			if( X3 != 0 )
 			{
-				Click( X3, Y3 )
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
 			}
 			
-			else
+			continue
+		}
+		; second quest isn't visible so we need to scroll down
+		else if ( DoesQuestNeedToBeCancel( questsArray, questsArray[2] ) )
+		{
+			; Scroll down a little
+			Click( 655,391 )
+			Wait( 500 )
+			SearchForColor( 224,542,267,693, X3, Y3, 0x82281C, 5, 100 )
+			if( X3 != 0 )
 			{
-				; Scroll down a little
-				Click( 655,313 )
-				Wait( 500 )
-				msgbox, not found
-				SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 100 )
-				if( X3 != 0 )
-				{
-					Click( X3, Y3 )
-				}
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
 			}
 			
 			continue
 		}
 		
+		if( DoesQuestNeedToBeCancel( questsArray, questsArray[3] ) )
+		{
+			ScrollToTheBottomOfQuest()
+			SearchForColor( 222,550,267,693, X4, Y4, 0x82281C, 5, 100 )
+			if( X4 != 0 )
+			{
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X4, Y4 )
+			}
+			
+			continue
+		
+		}
+		
+		return questsArray
+		
 	}
 	
 }
 
+ScrollToTheBottomOfQuest()
+{
+	; Scroll down to the bottom
+	ValidateLoopFunc( 655,656,0x848FA5, 2000, "ResetToQuestPanel", "Click", 657,668 )
+	Wait( 500 )
+}
 
 IsAGoodQuest( quest )
 {		
-	if ( ( quest == "933122(collectReward)" ) or ( quest == "933125(collectReward)" ) )
+	if ( InStr( quest, "collectReward") > 0 )
+	{
+		return 1
+	}
+	
+	if ( ( InStr( quest, "933131") > 0 ) or ( InStr( quest, "933132") > 0 ) )
+	{
+		return 4
+	}
+	if ( ( InStr( quest, "933122") > 0 ) or ( InStr( quest, "933125") > 0 ) )
 	{
 		return 2
 	}
-	if ( ( quest == "933122(accepted)" ) or ( quest == "933125(accepted)" ) or ( quest == "933131(accepted)" ) or ( quest == "933132(accepted)" ) )
+	return 0
+}
+
+
+IsQuestALongOne( quest )
+{
+	if ( ( InStr( quest, "933127") > 0 ) or ( InStr( quest, "933131") > 0 ) or ( InStr( quest, "933132") > 0 ) )
 	{
 		return 1
 	}
 	return 0
 }
 
+DoesQuestNeedToBeCancel( questsArray, quest )
+{
+	; Only when two battle quests are present + 1 good quest
+	if ( ( ( questsArray[1] + questsArray[2] + questsArray[3] ) > 8 ) and ( quest == 4 ) )
+	{
+		return 1
+	}
+	else if ( quest == 0 )
+	{
+		return 1
+	}
+	return 0
 
-
-
+}
 
 
 
@@ -1786,10 +1889,11 @@ CustomFunction()
 			Send, {esc}
 		}
 	}
-	;5MinProductionLoop()
 
-	;ImageSearch, FoundX, FoundY, 584,355, 1476,827, *10 C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png
-	;MouseMove, FoundY, FoundY
+	; Close the win panel
+
+	;AutoQuestAndBattle()
+
 
 	return
 	

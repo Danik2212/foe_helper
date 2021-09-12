@@ -282,6 +282,56 @@ ValidateLoop( x, y, color, timeout, func, arg1 = -1, arg2 = -1, arg3 = -1, arg4 
 	}
 }
 
+ValidateLoopFunc( x, y, color, timeout, timeoutFunc, func, arg1 = -1, arg2 = -1, arg3 = -1, arg4 = -1, arg5 = -1 )
+{
+	Inc:= 0
+	Loop{
+		Inc:= Inc + 1
+		CallFunc( func, arg1, arg2, arg3, arg4, arg5 )
+		if( LookForColorAround( x,y,color, timeout ) )
+		{
+			break
+		}
+		if (Inc > 5 )
+		{
+			%timeoutFunc%()
+			return
+		}
+	}
+}
+
+ValidateLoopClipFunc( timeout, timeoutFunc, func, arg1 = -1, arg2 = -1, arg3 = -1, arg4 = -1, arg5 = -1 )
+{
+	Inc:= 0
+	Loop{
+		Inc:= Inc + 1
+		CallFunc( func, arg1, arg2, arg3, arg4, arg5 )
+		start := A_TickCount
+		Loop
+		{
+			if( Clipboard != "" )
+			{
+				return
+			}
+			else
+			{
+				wait( 5 )
+			}
+			if ( ( A_TickCount - start ) > timeout )
+			{
+				break
+			}
+		}
+		
+		if (Inc > 5 )
+		{
+			%timeoutFunc%()
+			return
+		}
+	}
+}
+
+
 ValidateLoopReverse( x, y, color, timeout, func, arg1 = -1, arg2 = -1, arg3 = -1, arg4 = -1, arg5 = -1 )
 {
 	Inc:= 0

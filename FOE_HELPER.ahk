@@ -20,7 +20,7 @@ SetDefaultMouseSpeed 2
 GetHelperFunctionsList()
 {
 
-	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|PutFPS|Claim50Diamonds|CustomFunction"
+	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|PutFPS|Claim50Diamonds|CustomFunction|NegoDoer"
 
 }
 
@@ -669,6 +669,11 @@ DoFightSmallScreen()
 	Click( 931,814 )
 	Wait( 250 )
 	start := A_TickCount
+	
+	if( 2fights == 0 )
+	{
+		2fightDone := 1
+	}
 	Loop{
 		if ( NO_RANKS )
 		{
@@ -677,9 +682,10 @@ DoFightSmallScreen()
 				Wait( 100 )
 				Click( X,Y+3 )
 				Wait( 100 )
+				2fightDone := 1
 			}
 		
-			if ( SearchForColor2( 884,761, 941,791, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+			if ( 2fightDone && SearchForColor2( 884,761, 941,791, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
 				if ( LookForColorAround( 1044,371,0xFEFADF, 100 ) )
 				{
@@ -697,10 +703,10 @@ DoFightSmallScreen()
 			{
 				Wait( 100 )
 				Click( X,Y+3 )
-				Wait( 100 )
+				2fightDone := 1
 			}
 		
-			if ( SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+			if ( 2fightDone && SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
 				if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
 				{
@@ -1091,6 +1097,11 @@ CancelQuests()
 
 ResetToQuestPanel()
 {
+	; if done questing
+	if ( WaitForColor( 1117,494,0x531C11, 5, 100 ) )
+	{
+		;reload
+	}
 	Click( 86,52 )
 	Wait( 3000 )
 	WaitForColor( 501,87,0x53341A, 10, 10000 )
@@ -1109,34 +1120,65 @@ AutoQuestAndBattle()
 {
 	Loop
 	{
-		GetProperQuestState()
-		ScrollToTheBottomOfQuest()
+		state := GetProperQuestState()
 		
-		; Click the fight button
-		X:=0
-		SearchForColor( 445,366,488,456, X, Y, 0xA15B26, 5, 5000 )
-		if( X != 0 )
+		if ( state[3] == 4 )
 		{
-			Click( X, Y )
-			wait( 500 )
+			ScrollToTheBottomOfQuest()
+			
+			; Click the fight button
+			X:=0
+			SearchForColor( 445,366,488,456, X, Y, 0xA15B26, 5, 5000 )
+			if( X != 0 )
+			{
+				Click( X, Y )
+				wait( 500 )
+			}
+			
+			AutoFight()
+		
+			; Cancel the quest now
+			SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 3000 )
+			if( X3 != 0 )
+			{
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
+				wait( 500 )
+			}
 		}
+		else
+		{
+			X:=0
+			SearchForColor( 444,461,482,554, X, Y, 0xA15B26, 5, 5000 )
+			if( X != 0 )
+			{
+				Click( X, Y )
+				wait( 500 )
+			}
 
-		AutoFight()
-		
-		; Cancel the quest now
-		SearchForColor( 222,570,267,693, X3, Y3, 0x82281C, 5, 3000 )
-		if( X3 != 0 )
-		{
-			ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
-			wait( 500 )
+			AutoFight()
+			
+			ScrollToTheBottomOfQuest()
+			
+			; Cancel the quest now
+			SearchForColor( 219,186,398,230, X3, Y3, 0x82281C, 5, 3000 )
+			if( X3 != 0 )
+			{
+				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
+				wait( 500 )
+			}
+			
+			
 		}
+		
+		
+
+		
 		
 	}
 }
 
 Tabs()
 {
-	Send %A_Tab%
 	Send %A_Tab%
 	Send %A_Tab%
 }
@@ -1227,8 +1269,8 @@ GetProperQuestState()
 		{
 			; Scroll down a little
 			Click( 655,391 )
-			Wait( 500 )
-			SearchForColor( 224,542,267,693, X3, Y3, 0x82281C, 5, 100 )
+			Wait( 500 ) 
+			SearchForColor( 224,480,267,693, X3, Y3, 0x82281C, 5, 100 )
 			if( X3 != 0 )
 			{
 				ValidateLoopClipFunc( 2000, "ResetToQuestPanel", "Click", X3, Y3 )
@@ -1249,6 +1291,9 @@ GetProperQuestState()
 			continue
 		
 		}
+		
+		ValidateLoopFunc( 626,167,0xCAA555, 2000, "ResetToQuestPanel", "Tabs" )
+		Wait( 500 )
 		
 		return questsArray
 		
@@ -1284,7 +1329,7 @@ IsAGoodQuest( quest )
 
 IsQuestALongOne( quest )
 {
-	if ( ( InStr( quest, "933127") > 0 ) or ( InStr( quest, "933131") > 0 ) or ( InStr( quest, "933132") > 0 ) )
+	if ( ( InStr( quest, "933127") > 0 ) or ( InStr( quest, "933131") > 0 ) or ( InStr( quest, "933132") > 0 ) or ( InStr( quest, "933124") > 0 ) )
 	{
 		return 1
 	}
@@ -1296,7 +1341,7 @@ DoesQuestNeedToBeCancel( questsArray, quest )
 	; Only when two battle quests are present + 1 good quest
 	if ( ( ( questsArray[1] + questsArray[2] + questsArray[3] ) > 8 ) and ( quest == 4 ) )
 	{
-		return 1
+		return 0
 	}
 	else if ( quest == 0 )
 	{

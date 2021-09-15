@@ -20,7 +20,7 @@ SetDefaultMouseSpeed 2
 GetHelperFunctionsList()
 {
 
-	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|PutFPS|Claim50Diamonds|CustomFunction|NegoDoer"
+	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|5MinProductionLoop|Claim50Diamonds|CustomFunction|NegoDoer|AutoQuestAndBattle"
 
 }
 
@@ -1098,9 +1098,9 @@ CancelQuests()
 ResetToQuestPanel()
 {
 	; if done questing
-	if ( WaitForColor( 1117,494,0x531C11, 5, 100 ) )
+	if ( FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\2000.png", "o5 n" ) )
 	{
-		;reload
+		reload
 	}
 	Click( 86,52 )
 	Wait( 3000 )
@@ -1118,6 +1118,7 @@ ResetToQuestPanel()
 
 AutoQuestAndBattle()
 {
+
 	Loop
 	{
 		state := GetProperQuestState()
@@ -1317,6 +1318,10 @@ IsAGoodQuest( quest )
 	
 	if ( ( InStr( quest, "933131") > 0 ) or ( InStr( quest, "933132") > 0 ) )
 	{
+		if ( InStr( quest, "progress" ) > 0 )
+		{
+			return 0
+		}
 		return 4
 	}
 	if ( ( InStr( quest, "933122") > 0 ) or ( InStr( quest, "933125") > 0 ) )
@@ -1695,21 +1700,17 @@ ReplaceWithBestFastUnitsSmallScreen()
 {
 	Loop
 	{
-		;Click( 1033,401 )
-		;Loop 30
-		;{
-		;	Start5MinProduction()
-		;	Wait( 1000 )
-		;}
-		
+		;FindClick()
 
-		;if ( SearchForColor( 810,369, 1498,726, X, Y, 0x753C22, 10, 1000 ) )
-		;{
-		;	Click( X, Y - 20 )
-		;	Wait( 1000 )
-		;}
-		
-		
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Box.png", "o5 x0 y+80" )
+		Send, 1
+		Sleep, 500
+		if ( Mod( A_Index, 10 )== 0 )
+		{
+			Send, {esc}
+		}
 		
 	}
 
@@ -1922,22 +1923,10 @@ CheckForAvailableSlotAndFill( X, Y )
 
 CustomFunction()
 {
-	;FindClick()
-	Loop
-	{
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png", "o5 x0 y+80" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o5 x0 y+80" )
-		Send, 1
-		Sleep, 500
-		if ( Mod( A_Index, 10 )== 0 )
-		{
-			Send, {esc}
-		}
-	}
-
+	
+	FindClick()
 	; Close the win panel
 
-	;AutoQuestAndBattle()
 
 
 	return

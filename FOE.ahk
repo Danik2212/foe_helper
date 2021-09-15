@@ -241,6 +241,8 @@ SaveConfigs()
 	; GVG Section
 	IniWrite, %SIEGE_AGE%, %fileLocation%, HelperGVGSection, SIEGE_AGE
 	IniWrite, %RED_DOT%, %fileLocation%, HelperGVGSection, RED_DOT
+	IniWrite, %LASTGVG_X%, %fileLocation%, HelperGVGSection, LASTGVG_X
+	IniWrite, %LASTGVG_Y%, %fileLocation%, HelperGVGSection, LASTGVG_Y
 	
 	
 	
@@ -328,6 +330,8 @@ LoadConfigs()
 	; GVG Section
 	IniRead, SIEGE_AGE, %fileLocation%, HelperGVGSection, SIEGE_AGE
 	IniRead, RED_DOT, %fileLocation%, HelperGVGSection, RED_DOT
+	IniRead, LASTGVG_X, %fileLocation%, HelperGVGSection, LASTGVG_X
+	IniRead, LASTGVG_Y, %fileLocation%, HelperGVGSection, LASTGVG_Y
 	
 	
 	; Hotkeys Section
@@ -432,13 +436,13 @@ FOE_GVG( hotkey )
 
 
 		case "F17": ;4
-		AutoFightGvG()
+		AutoFightGvG( "F17" )
 
 		case "F18": ;5
-		ConfirmSell()
+		KeepFightingGvG( "F18" )
 
 		case "F19": ;6
-		Claim50Diamonds()
+		PutReinforcementsWhileKeyDown( "F19" )
 
 		case "F20": ;Super
 		MouseClicksWhileKeyDown()

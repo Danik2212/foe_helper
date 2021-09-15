@@ -667,7 +667,7 @@ DoFightSmallScreen()
 	Y:= 0
 	
 	Click( 931,814 )
-	Wait( 250 )
+	;Wait( 250 )
 	start := A_TickCount
 	
 	if( 2fights == 0 )
@@ -689,9 +689,9 @@ DoFightSmallScreen()
 			{	
 				if ( LookForColorAround( 1044,371,0xFEFADF, 100 ) )
 				{
-					Wait( 100 )
+					;Wait( 100 )
 					Click( X,Y+3 )
-					Wait( 100 )
+					;Wait( 100 )
 					return
 				}
 				
@@ -710,9 +710,9 @@ DoFightSmallScreen()
 			{	
 				if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
 				{
-					Wait( 100 )
+					;Wait( 100 )
 					Click( X,Y+3 )
-					Wait( 100 )
+					;Wait( 100 )
 					return
 				}
 				
@@ -1478,42 +1478,82 @@ VerifyAbandonner1( ByRef X1, ByRef Y1, Inc := 0 )
 ;; AutoFightGvG
 ;;-----------------------------------------------------------------------------------------------------------------------
 
-AutoFightGvG()
+AutoFightGvG( key )
 {
 	X:= 0
 	Y:= 0
 	MouseGetPos X, Y
+	LASTGVG_X := X
+	LASTGVG_Y := Y
 	Loop{
 		Loop
 		{
 			Click( X, Y )
-			if ( LookForColorAround( X+180,Y+14,0x573319, 50 ) )
+			if ( LookForColorAround( X+180,Y+14,0x573319, 10 ) )
 			{
 				Click( X+87, Y-14 )
-				Wait( 100 )
 				break
 			}
 			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
 			{
 				break
 			}
+			
+			if ( Mod( A_Index, 10 ) == 0 )
+			{
+				Send, {Escape}
+			}
 		}
 
-		; Wait for the unit panel
-		LookForColorAround( 632,395,0x342E2C , 2000 )
 		
-		; If there's a missing unit
-		if( LookForColorAround( 857,531,0x422714, 50 ) )
-		{
-			ReplaceArmy()
-		}
-		DoFight()
+		AutoFight()
 		Send, {Escape}
-		Wait( 50 )
 		Send, {Escape}
-		Wait( 50 )
+		SaveConfigs()
 	}
 }
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; KeepFightingGvG
+;;-----------------------------------------------------------------------------------------------------------------------
+
+KeepFightingGvG( key )
+{
+	X:= LASTGVG_X
+	Y:= LASTGVG_Y
+	Loop{
+		Loop
+		{
+			Click( X, Y )
+			if ( LookForColorAround( X+180,Y+14,0x573319, 10 ) )
+			{
+				Click( X+87, Y-14 )
+				;Wait( 100 )
+				break
+			}
+			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
+			{
+				break
+			}
+			
+			if ( Mod( A_Index, 10 ) == 0 )
+			{
+				Send, {Escape}
+			}
+		}
+
+		
+		AutoFight()
+		Send, {Escape}
+		;Wait( 50 )
+		Send, {Escape}
+		;Wait( 50 )
+	}
+}
+
+
+
+
 
 ;;-----------------------------------------------------------------------------------------------------------------------
 ;; RemoveFriendsSmallScreen
@@ -1856,9 +1896,9 @@ PutFPSWorker(x, y)
 
 
 
-PutReinforcementsWhileKeyDown()
+PutReinforcementsWhileKeyDown( key )
 {
-	while GetKeyState("F19")
+	while GetKeyState(key)
 	{
 		if( LookForColorAround( 856,455,0x432815, 50 ) )
 		{
@@ -1906,8 +1946,9 @@ PutReinforcementsWhileKeyDown()
 
 CheckForAvailableSlotAndFill( X, Y )
 {
-	if ( LookForColorAround( X,Y,0x945025, 50 ) )
+	if ( LookForColorAround( X,Y,0x945025, 20 ) )
 	{
+		Click( X,Y )
 		Click( X,Y )
 		return 1
 	}

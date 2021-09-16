@@ -25,6 +25,8 @@ global NO_RANKS := 0
 ;; Helper GVG section
 global SIEGE_AGE := 1
 global RED_DOT := 0
+global LASTGVG_X := 0
+global LASTGVG_Y := 0
 
 ;; Auto General section
 global LINES := 1

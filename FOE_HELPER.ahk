@@ -20,7 +20,7 @@ SetDefaultMouseSpeed 2
 GetHelperFunctionsList()
 {
 
-	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|AutoFightCDGFastLoop|ReplaceArmy|RecuringQuest|RemoveFriendsSmallScreen|5MinProductionLoop|Claim50Diamonds|CustomFunction|NegoDoer|AutoQuestAndBattle"
+	return "HelpAll|Buy|ConfirmSell|FillArmyWithSelectUnits|RemoveCurrentUnits|MouseClicksWhileKeyDown|AutoFightCDGLoop|ReplaceArmy|5MinProductionLoop"
 
 }
 
@@ -898,7 +898,7 @@ AutoFightCDGLoop()
 	Loop
 	{
 		AutoFightCDG()
-		Wait( 1500 )
+		Wait( WAIT_TIME )
 	}
 	return true
 }

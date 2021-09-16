@@ -82,23 +82,13 @@ InitGui(){
 		; Left side
 		Gui, Add, Text,         x20  y70  w110 h20 , General section
 		
-		Gui, Add, Text,         x20  y95  w110 h20 ,  RQ PFs:
-		Gui, Add, Edit,         x130 y95  w90  h20   gSaveEvent_EDIT_RQ_PFS,
-		Gui, Add, UpDown,       x200 y95  w20  h20   gSaveEvent_UD_RQ_PFS vRQ_PFS Range1-1000, % RQ_PFS
 								
-		Gui, Add, Text,         x20  y120  w110 h20 , RQ slots:
-		Gui, Add, Edit,         x130 y120  w90  h20  gSaveEvent_EDIT_RQ_SLOTS,
-		Gui, Add, UpDown,       x200 y120  w20  h20  gSaveEvent_UD_RQ_SLOTS vRQ_SLOTS Range1-4, % RQ_SLOTS
-								
-		Gui, Add, Text,         x20  y145 w110 h20 , Construction slot:
-		Gui, Add, Edit,         x130 y145 w90  h20   gSaveEvent_EDIT_CONSTRUCTION_SLOTS ,
-		Gui, Add, UpDown,       x200 y145 w20  h20   gSaveEvent_UD_CONSTRUCTION_SLOTS vCONSTRUCTION_SLOTS Range1-4, % CONSTRUCTION_SLOTS
+		Gui, Add, Text,         x20  y95 w110 h20 , Construction slot:
+		Gui, Add, Edit,         x130 y95 w90  h20   gSaveEvent_EDIT_CONSTRUCTION_SLOTS ,
+		Gui, Add, UpDown,       x200 y95 w20  h20   gSaveEvent_UD_CONSTRUCTION_SLOTS vCONSTRUCTION_SLOTS Range1-4, % CONSTRUCTION_SLOTS
 		
-		Gui, Add, Text,         x20  y170 w110 h20 , Friends to remove:
-		Gui, Add, Edit,         x130 y170 w90  h20   gSaveEvent_EDIT_FRIENDS_TO_REMOVE ,
-		Gui, Add, UpDown,       x200 y170 w20  h20   gSaveEvent_UD_FRIENDS_TO_REMOVE vFRIENDS_TO_REMOVE Range1-150, % FRIENDS_TO_REMOVE
 								
-		Gui, Add, CheckBox,     x20  y195 w200 h20   gSaveEvent_CB_SMART_FIGHTING vSMART_FIGHTING Checked%SMART_FIGHTING%, Smart fighting
+
 		
 		Gui, Add, CheckBox,     x20  y220 w200 h20   gSaveEvent_RED_DOT vRED_DOT Checked%RED_DOT%, Red dot
 		
@@ -118,14 +108,15 @@ InitGui(){
 		
 		Gui, Add, Text,         x245 y145 w120 h20  , Type of unit:
 		Gui, Add, DropDownList, x355 y145 w90  h200 gSaveEvent_DD_UNIT_TYPE vUNIT_TYPE Choose%UNIT_TYPE%  AltSubmit, Fast|Heavy|Light|Artillery|Distance
-								
-		Gui, Add, Text,         x245 y170 w120 h20  , Fighting age:
-		Gui, Add, DropDownList, x355 y170 w90  h200 gSaveEvent_FIGHT_AGE vFIGHT_AGE Choose%FIGHT_AGE%  AltSubmit, Iron|Virtual|MarsRush|Mars						
+							
+		Gui, Add, Text,         x245 y170  w110 h40, Autofight time to wait(ms):
+		Gui, Add, Edit,         x355 y170  w90  h20  gSaveEvent_EDIT_WAIT_TIME, 
+		Gui, Add, UpDown,       x415 y170  w20  h20  gSaveEvent_UD_WAIT_TIME vWAIT_TIME Range0-10000, % WAIT_TIME
 		
-		Gui, Add, Text,         x245 y205 w120 h20 , GvG section
+		Gui, Add, Text,         x245 y225 w120 h20 , GvG section
 									
-		Gui, Add, Text,         x245 y230 w120 h20 , Siege age:
-		Gui, Add, DropDownList, x355 y230 w90  h200 gSaveEvent_DD_SIEGE_AGE vSIEGE_AGE Choose%SIEGE_AGE%  AltSubmit, TLA|Others
+		Gui, Add, Text,         x245 y250 w120 h20 , Siege age:
+		Gui, Add, DropDownList, x355 y250 w90  h200 gSaveEvent_DD_SIEGE_AGE vSIEGE_AGE Choose%SIEGE_AGE%  AltSubmit, TLA|Others
 	
 	
 	Gui, Tab, 2
@@ -236,7 +227,8 @@ SaveConfigs()
 	IniWrite, %ROGUES_NUMBER%, %fileLocation%, HelperGBGSection, ROGUES_NUMBER
 	IniWrite, %UNITS_NUMBER%, %fileLocation%, HelperGBGSection, UNITS_NUMBER
 	IniWrite, %UNIT_TYPE%, %fileLocation%, HelperGBGSection, UNIT_TYPE
-	IniWrite, %NO_RANKS%, %fileLocation%, HelperGVGSection, NO_RANKS
+	IniWrite, %NO_RANKS%, %fileLocation%, HelperGBGSection, NO_RANKS
+	IniWrite, %WAIT_TIME%, %fileLocation%, HelperGBGSection, WAIT_TIME
 	
 	; GVG Section
 	IniWrite, %SIEGE_AGE%, %fileLocation%, HelperGVGSection, SIEGE_AGE
@@ -325,7 +317,8 @@ LoadConfigs()
 	IniRead, ROGUES_NUMBER, %fileLocation%, HelperGBGSection, ROGUES_NUMBER
 	IniRead, UNITS_NUMBER, %fileLocation%, HelperGBGSection, UNITS_NUMBER
 	IniRead, UNIT_TYPE, %fileLocation%, HelperGBGSection, UNIT_TYPE
-	IniRead, NO_RANKS, %fileLocation%, HelperGVGSection, NO_RANKS
+	IniRead, NO_RANKS, %fileLocation%, HelperGBGSection, NO_RANKS
+	IniRead, WAIT_TIME, %fileLocation%, HelperGBGSection, WAIT_TIME
 	
 	; GVG Section
 	IniRead, SIEGE_AGE, %fileLocation%, HelperGVGSection, SIEGE_AGE
@@ -579,6 +572,9 @@ SaveEvent_UD_ROWS:
 SaveEvent_EDIT_ROWS:
 SaveEvent_UD_WINDOWS:
 SaveEvent_EDIT_WINDOWS:
+
+SaveEvent_EDIT_WAIT_TIME:
+SaveEvent_UD_WAIT_TIME:
 
 SaveEvent_CURRENT_SCREEN:
 

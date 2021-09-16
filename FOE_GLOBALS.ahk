@@ -21,6 +21,7 @@ global ROGUES_NUMBER := 0
 global UNITS_NUMBER := 0
 global UNIT_TYPE := 2
 global NO_RANKS := 0
+global WAIT_TIME := 1500
 
 ;; Helper GVG section
 global SIEGE_AGE := 1

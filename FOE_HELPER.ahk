@@ -26,7 +26,7 @@ GetHelperFunctionsList()
 
 GetGVGFunctionsList()
 {
-	return "FillArmyWithSelectUnits|RemoveCurrentUnits|ReplaceArmy|PlaceSiege|AutoFightGvG|MouseClicksWhileKeyDown"
+	return "FillArmyWithSelectUnits|RemoveCurrentUnits|ReplaceArmy|PlaceSiege|AutoFightGvG|MouseClicksWhileKeyDown|KeepFightingGvG"
 
 }
 
@@ -1551,6 +1551,73 @@ KeepFightingGvG( key )
 	}
 }
 
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; AutoDefendGvG
+;;-----------------------------------------------------------------------------------------------------------------------
+
+AutoDefendGvG()
+{
+	Loop{
+		Loop
+		{
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Attacked.png", "o10 x0 y+50 Center", X, Y )
+			;Click( X, Y - 25 )
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\secteur1.png", "o10 x0 y0 Center" )
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\secteur2.png", "o10 x0 y0 Center" )
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\secteur3.png", "o10 x0 y0 Center" )
+
+			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
+			{
+				break
+			}
+			
+			if ( Mod( A_Index, 5 ) == 0 )
+			{
+				Send, {Escape}
+				Send, {Escape}
+				Send, {Escape}
+			}
+		}
+
+		
+		AutoFight()
+		Send, {Escape}
+		;Wait( 50 )
+		Send, {Escape}
+		;Wait( 50 )
+	}
+}
+
+
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; AutoDefendGvG
+;;-----------------------------------------------------------------------------------------------------------------------
+
+AutoOpenAndFightGvG()
+{
+	Loop{
+		Loop
+		{
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\secteur1.png", "o10 x0 y0 Center" )
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\secteur2.png", "o10 x0 y0 Center" )
+			FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\secteur3.png", "o10 x0 y0 Center" )
+
+			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
+			{
+				break
+			}
+		}
+
+		
+		AutoFight()
+		Send, {Escape}
+		;Wait( 50 )
+		Send, {Escape}
+		;Wait( 50 )
+	}
+}
 
 
 

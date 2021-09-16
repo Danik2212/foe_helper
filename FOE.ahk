@@ -433,7 +433,7 @@ FOE_GVG( hotkey )
 		PlaceSiege()
 
 		case "F16": ;Enter
-
+		AutoOpenAndFightGvG()
 
 		case "F17": ;4
 		AutoFightGvG( "F17" )
@@ -442,19 +442,20 @@ FOE_GVG( hotkey )
 		KeepFightingGvG( "F18" )
 
 		case "F19": ;6
-		PutReinforcementsWhileKeyDown( "F19" )
+		
+		
 
 		case "F20": ;Super
-		MouseClicksWhileKeyDown()
+		PutReinforcementsWhileKeyDown( "F20" )
 
 		case "F21": ;7
-		ReplaceWithBestFastUnits()
+		AutoDefendGvG()
 		
 		case "F22": ;8
 		ReplaceArmy()
 		
 		case "F23": ;9
-		CustomFunction()
+		MouseClicksWhileKeyDown()
 
 	}
 }

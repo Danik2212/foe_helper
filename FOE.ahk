@@ -75,6 +75,8 @@ InitGui(){
 	Gui, Add, Text, x372 y9 w210 h20 , Alt + Q to restart
 	Gui, Add, Tab, x5 y40 w460 h235 , Helper Config||Helper Hotkeys|GVG Hotkeys
 	
+	Gui, Add, Button, x372 y30 w80 h20 gAutoQuestAndBattle, AutoQuest
+	
 	;Helper Config tab
 	
 	Gui, Tab, 1
@@ -183,6 +185,10 @@ InitGui(){
 	Gui, RedDot:New, +toolwindow -resize -caption +alwaysontop
 	Gui, color , ff0000  ; set color value RGB
 	Gui, RedDot:show,w4 h4 x561 y794
+	
+	Gui, Reset:New, +toolwindow -resize -caption +alwaysontop
+	Gui, Reset:show, w50 h40 x1300 y1040
+	Gui, Reset:Add, Button, w50 h40 x0 y0 gReloadApp, Reset
 	
 	if ( RED_DOT == 0 )
 	{
@@ -713,6 +719,14 @@ SaveConfigs()
 ;ExitApp
 return
 
+
+AutoQuestAndBattle:
+AutoQuestAndBattle()
+return
+
+ReloadApp:
+reload
+return
 
 ;; ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 

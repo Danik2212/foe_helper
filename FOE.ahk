@@ -73,7 +73,7 @@ InitGui(){
 	Gui, Add, Text, x270 y12 w80 h20 , %bigScreen%
 	
 	Gui, Add, Text, x372 y9 w210 h20 , Alt + Q to restart
-	Gui, Add, Tab, x5 y40 w460 h235 , Helper Config||Helper Hotkeys|GVG Hotkeys
+	Gui, Add, Tab, x5 y40 w460 h255 , Helper Config||Helper Hotkeys|GVG Hotkeys
 	
 	;Helper Config tab
 	
@@ -145,6 +145,8 @@ InitGui(){
 		Gui, Add, Hotkey,			x20  y245 w200 h20  gSaveEvent_HELPER_HOTKEY_8 vHELPER_HOTKEY_8, %HELPER_HOTKEY_8%
 		Gui, Add, DropDownList,     x245 y245 w200 h200 gSaveEvent_HELPER_HOTKEY_FUNCTION_8 vHELPER_HOTKEY_FUNCTION_8 Choose%HELPER_HOTKEY_FUNCTION_8% AltSubmit, %functions%
 		
+		Gui, Add, Button,           x365 y270 w80 h20 gSaveEventAndReset , Save
+		
 	Gui, Tab, 3
 		functions := GetGVGFunctionsList()
 		Gui, Add, Hotkey,			x20  y70 w200 h20  gSaveEvent_GVG_HOTKEY_1 vGVG_HOTKEY_1, %GVG_HOTKEY_1%
@@ -171,6 +173,8 @@ InitGui(){
 		Gui, Add, Hotkey,			x20  y245 w200 h20  gSaveEvent_GVG_HOTKEY_8 vGVG_HOTKEY_8, %GVG_HOTKEY_8%
 		Gui, Add, DropDownList,     x245 y245 w200 h200 gSaveEvent_GVG_HOTKEY_FUNCTION_8 vGVG_HOTKEY_FUNCTION_8 Choose%GVG_HOTKEY_FUNCTION_8% AltSubmit, %functions%
 	
+		Gui, Add, Button,           x365 y270 w80 h20 gSaveEventAndReset , Save
+	
 	Gui, RedDot:New, +toolwindow -resize -caption +alwaysontop
 	Gui, color , ff0000  ; set color value RGB
 	Gui, RedDot:show,w4 h4 x561 y794
@@ -185,11 +189,11 @@ InitGui(){
 	
 	if( width > 1980 )
 	{
-		Gui, Main:Show, x3500 y400 h280 w470, FOE
+		Gui, Main:Show, x3500 y400 h310 w470, FOE
 	}
 	else
 	{
-		Gui, Main:Show, x100 y100 h280 w470, FOE
+		Gui, Main:Show, x100 y100 h310 w470, FOE
 	}
 	
 }
@@ -707,6 +711,11 @@ GuiClose:
 Gui, Submit , NoHide
 SaveConfigs()
 ;ExitApp
+return
+
+SaveEventAndReset:
+SaveConfigs()
+reload
 return
 
 

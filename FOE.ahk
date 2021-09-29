@@ -75,8 +75,6 @@ InitGui(){
 	Gui, Add, Text, x372 y9 w210 h20 , Alt + Q to restart
 	Gui, Add, Tab, x5 y40 w460 h235 , Helper Config||Helper Hotkeys|GVG Hotkeys
 	
-	Gui, Add, Button, x372 y30 w80 h20 gAutoQuestAndBattle, AutoQuest
-	
 	;Helper Config tab
 	
 	Gui, Tab, 1
@@ -187,9 +185,11 @@ InitGui(){
 	Gui, RedDot:show,w4 h4 x561 y794
 	
 	Gui, Reset:New, +toolwindow -resize -caption +alwaysontop
-	Gui, Reset:show, w50 h40 x1300 y1040
-	Gui, Reset:Add, Button, w50 h40 x0 y0 gReloadApp, Reset
-	
+	Gui, Reset:Add, Button, x0 y0 w50 h40 gReloadApp, Reset
+	Gui, Reset:Add, Button, x50 y0 w50 h40 gAutoQuestAndBattle, Quest
+	Gui, Reset:Add, Button, x100 y0 w50 h40 gAutoFightCDG, CDG
+	Gui, Reset:show, w200 h40 x1300 y1040
+
 	if ( RED_DOT == 0 )
 	{
 		Gui, RedDot:hide
@@ -490,7 +490,7 @@ FOE_HELPER( hotkey )
 		ConfirmSell()
 
 		case "F19": ;6
-		MouseClicksWhileKeyDown()
+		AutoQuestAndBattle()
 
 		case "F20": ;Super
 		AutoFightCDGLoop()
@@ -505,13 +505,13 @@ FOE_HELPER( hotkey )
 		CancelQuests()
 		
 		case "AF13": ;Alt & 1
-		CustomFunction()
+		PutFPS()
 		
 		case "AF14": ;Alt & 2
-		Claim50Diamonds()
+		RemoveFriendsSmallScreen()
 		
 		case "AF15": ;Alt & 3
-
+		
 		
 		case "AF16": ;Alt & Enter
 		
@@ -722,6 +722,10 @@ return
 
 AutoQuestAndBattle:
 AutoQuestAndBattle()
+return
+
+AutoFightCDG:
+AutoFightCDGFastLoop()
 return
 
 ReloadApp:

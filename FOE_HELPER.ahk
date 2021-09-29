@@ -720,7 +720,7 @@ DoFightSmallScreen()
 		
 		}
 		
-		if ( ( A_TickCount - start ) > 5000 ) 
+		if ( ( A_TickCount - start ) > 2000 ) 
 			return
 	
 	}
@@ -903,6 +903,10 @@ AutoFightCDGLoop()
 	return true
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; AutoFightCDGFastLoop
+;;-----------------------------------------------------------------------------------------------------------------------
+
 AutoFightCDGFastLoop()
 {
 	Loop
@@ -912,161 +916,9 @@ AutoFightCDGFastLoop()
 	return true
 }
 
-
 ;;-----------------------------------------------------------------------------------------------------------------------
-;; RecuringQuest
+;; CancelQuests
 ;;-----------------------------------------------------------------------------------------------------------------------
-
-RecuringQuest()
-{
-	if ( RQ_LOOP )
-	{
-		RecuringQuestLoop()
-	}
-	else
-	{
-		RecuringQuestSingle()
-	}
-
-}
-
-;;-----------------------------------------------------------------------------------------------------------------------
-;; RecuringQuestSingle
-;;-----------------------------------------------------------------------------------------------------------------------
-
-RecuringQuestSingle()
-{
-	switch RQ_SLOTS
-	{
-		case 1:
-			RecuringQuest1()
-		case 2:
-			RecuringQuest2()
-	}
-	
-}
-
-;;-----------------------------------------------------------------------------------------------------------------------
-;; RecuringQuestLoop
-;;-----------------------------------------------------------------------------------------------------------------------
-
-RecuringQuestLoop()
-{
-	Loop
-	{
-		switch RQ_SLOTS
-		{
-			case 1:
-				RecuringQuest1()
-			case 2:
-				RecuringQuest2()
-		}
-	
-	}
-
-}
-
-;;-----------------------------------------------------------------------------------------------------------------------
-;; RecuringQuest1
-;;-----------------------------------------------------------------------------------------------------------------------
-
-RecuringQuest1()
-{
-	
-	ClickSlow( 317,1051 )
-	Wait( 100 )
-	ClickSlow( 317,1051 )
-	Wait( 100 )
-	ClickSlow( 317,1051 )
-	Wait( 100 )
-	;Open quest window
-	
-	ClickSlow( 32,232 )
-	Wait( 1000 )
-	X:= 0
-	Y:= 0
-	if ( SearchForColor( 516, 299, 614, 341, X, Y, 0x56821E, 10, 1000 ) )
-	{
-		ClickSlow( X, Y )
-	}
-	Wait( 500 )
-
-	;Remove any popups
-	ClickSlow( 26,212 )
-	Wait( 500 )
-	ClickSlow( 26,212 )
-	
-	Wait( 500 )
-	
-	;Cycle through the quests
-	Loop 7
-	{
-		Wait( 500 )
-		X1:= 0
-		Y1:= 0
-		if ( VerifyAbandonner1( X1, Y1 ) )
-		{
-			ClickSlow( X1,Y1 )
-		}
-	}
-	
-	ClickSlow( 565,1341 )
-	ClickSlow( 565,1341 )
-	Wait( 500 )
-	if ( SearchForColor( 1949, 645, 1951, 665, X, Y, 0x9E5825, 10, 1000 ) )
-	{
-		ClickSlow( X, Y )
-	}
-	Wait( 500 )
-	ClickSlow( 1951,648 )
-	Wait( 250 )
-	Send %RQ_PFS%
-	Wait( 250 )
-	ClickSlow( 2013,646 )
-	Wait( 250 )
-}
-
-;;-----------------------------------------------------------------------------------------------------------------------
-;; RecuringQuest2
-;;-----------------------------------------------------------------------------------------------------------------------
-
-RecuringQuest2()
-{
-	
-	; Open the quest panel
-	ValidateLoop( 659,147,0xE7D6B6, 500, "Click", 26,234 )
-	
-	Wait( 500 )
-	
-	Click( 570,298 )
-	
-	Clipboard := ""
-	
-	Loop
-	{	
-		if ( Clipboard == "QuestReady" )
-		{
-			Clipboard := ""
-			Click( 458,91 )
-			
-			; Open the GM panel
-			ValidateLoop( 658,369,0x662518, 2000, "Click", 563,980 )
-			
-			; Open the first GM
-			ValidateLoop( 613,274,0x662518, 2000, "Click", 1202,473 )
-			
-			Click( 1189,463 )
-			Wait( 100 )
-			Send, 200
-			
-			MouseMove, 1205,473 
-			return
-		}
-		CancelQuests()
-			
-	}
-
-}
 
 CancelQuests()
 {
@@ -1092,8 +944,39 @@ CancelQuests()
 
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; ReloadAndFinishLoad
+;;-----------------------------------------------------------------------------------------------------------------------
 
+ReloadAndFinishLoad()
+{
+	Loop, 10
+	{
+		Click( 86,52 )
+		Wait( 3000 )
+		WaitForColor( 501,87,0x53341A, 10, 10000 )
+		Click( 489,85 )
+		Wait( 500 )
+		Click( 489,85 )
+		Wait( 500 )
+		
+		Loop, 10
+		{
+			FindClick( A_ScriptDir . "\close.png", "o5" )
+			FindClick( A_ScriptDir . "\close2.png", "o5" )
+			Click( 517,88 )
+			if ( WaitForColor( 505,82,0x53361C, 10, 100 ) )
+			{
+				return
+			}
+		}
+	}
+	
+}
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; ResetToQuestPanel
+;;-----------------------------------------------------------------------------------------------------------------------
 
 ResetToQuestPanel()
 {
@@ -1102,12 +985,7 @@ ResetToQuestPanel()
 	{
 		reload
 	}
-	Click( 86,52 )
-	Wait( 3000 )
-	WaitForColor( 501,87,0x53341A, 10, 10000 )
-	Click( 489,85 )
-	Wait( 500 )
-	Click( 489,85 )
+	ReloadAndFinishLoad()
 	Wait( 500 )
 	Send, q
 	Wait( 1000 )
@@ -1115,6 +993,9 @@ ResetToQuestPanel()
 
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; AutoQuestAndBattle
+;;-----------------------------------------------------------------------------------------------------------------------
 
 AutoQuestAndBattle()
 {
@@ -1178,12 +1059,20 @@ AutoQuestAndBattle()
 	}
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; Tabs
+;;-----------------------------------------------------------------------------------------------------------------------
+
 Tabs()
 {
 	Send %A_Tab%
 	Send %A_Tab%
+	Send %A_Tab%
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; GetProperQuestState
+;;-----------------------------------------------------------------------------------------------------------------------
 
 GetProperQuestState()
 {
@@ -1302,12 +1191,21 @@ GetProperQuestState()
 	
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; ScrollToTheBottomOfQuest
+;;-----------------------------------------------------------------------------------------------------------------------
+
+
 ScrollToTheBottomOfQuest()
 {
 	; Scroll down to the bottom
 	ValidateLoopFunc( 655,656,0x848FA5, 2000, "ResetToQuestPanel", "Click", 657,668 )
 	Wait( 500 )
 }
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; IsAGoodQuest
+;;-----------------------------------------------------------------------------------------------------------------------
 
 IsAGoodQuest( quest )
 {		
@@ -1331,6 +1229,9 @@ IsAGoodQuest( quest )
 	return 0
 }
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; IsQuestALongOne
+;;-----------------------------------------------------------------------------------------------------------------------
 
 IsQuestALongOne( quest )
 {
@@ -1340,6 +1241,10 @@ IsQuestALongOne( quest )
 	}
 	return 0
 }
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; DoesQuestNeedToBeCancel
+;;-----------------------------------------------------------------------------------------------------------------------
 
 DoesQuestNeedToBeCancel( questsArray, quest )
 {
@@ -1356,124 +1261,6 @@ DoesQuestNeedToBeCancel( questsArray, quest )
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;;-----------------------------------------------------------------------------------------------------------------------
-;; VerifyAbandonner2
-;;-----------------------------------------------------------------------------------------------------------------------
-
-VerifyAbandonner2( ByRef X1, ByRef Y1, ByRef X2, ByRef Y2, Inc := 0 )
-{
-	X1_1:= 0
-	Y1_1:= 0
-	X2_1:= 0
-	Y2_1:= 0
-	
-	X1_2:= 0
-	Y1_2:= 0
-	X2_2:= 0
-	Y2_2:= 0
-	
-	if ( SearchForColor( 220, 360, 386, 425, X1_1, Y1_1, 0x7C261A, 5, 1000 ) )
-	{
-		if ( SearchForColor( 220, 600, 385, 668, X2_1, Y2_1, 0x7C261A, 5, 1000 ) )
-		{
-			Wait( 150 )
-			if ( SearchForColor( 220, 360, 386, 425, X1_2, Y1_2, 0x7C261A, 5, 1000 ) )
-			{
-				if ( SearchForColor( 220, 600, 385, 668, X2_2, Y2_2, 0x7C261A, 5, 1000 ) )
-				{
-					Y1Dif := Abs( Y1_1 - Y1_2 )
-					Y2Dif := Abs( Y2_1 - Y2_2 )
-					if ( Y1Dif < 5 && Y2Dif < 5 )
-					{
-						; If there's yellow/brown next to it
-						if ( SearchForColor( X1_2 - 50, Y1_2, X1_2 + 50, Y1_2, temp1, temp2, 0xDFC79A, 10, 100 ) )
-						{
-							X1 := X1_2
-							X2 := X2_2
-							Y1 := Y1_2
-							Y2 := Y2_2
-							return true
-						}
-						
-					}
-
-				}
-			}
-			
-		}
-	}
-	if ( Inc < 10 )
-	{
-		Inc := Inc + 1
-		return VerifyAbandonner2( X1, Y1, X2, Y2, Inc )
-	}
-	else
-	{
-		return false
-	}
-
-}
-
-;;-----------------------------------------------------------------------------------------------------------------------
-;; VerifyAbandonner1
-;;-----------------------------------------------------------------------------------------------------------------------
-
-VerifyAbandonner1( ByRef X1, ByRef Y1, Inc := 0 )
-{
-	X1_1:= 0
-	Y1_1:= 0
-	
-	X1_2:= 0
-	Y1_2:= 0
-	
-
-	if ( SearchForColor( 242, 562, 391, 647, X1_1, Y1_1, 0x7C261A, 5, 1000 ) )
-	{
-		Wait( 250 )
-		if ( SearchForColor( 242, 562, 391, 647, X1_2, Y1_2, 0x7C261A, 5, 1000 ) )
-		{
-			Y1Dif := Abs( Y1_1 - Y1_2 )
-			Y2Dif := Abs( Y2_1 - Y2_2 )
-			if ( Y1Dif < 5 && Y2Dif < 5 )
-			{
-				; If there's yellow/brown next to it
-				if ( SearchForColor( X1_2 - 50, Y1_2, X1_2 + 50, Y1_2, temp1, temp2, 0xDFC79A, 10, 100 ) )
-				{
-					X1 := X1_2
-					Y1 := Y1_2
-					return true
-				}
-			}
-		}	
-	}
-	if ( Inc < 10 )
-	{
-		Inc := Inc + 1
-		return VerifyAbandonner1( X1, Y1, Inc )
-	}
-	else
-	{
-		return false
-	}
-
-}
-
 ;;-----------------------------------------------------------------------------------------------------------------------
 ;; AutoFightGvG
 ;;-----------------------------------------------------------------------------------------------------------------------
@@ -1485,32 +1272,7 @@ AutoFightGvG( key )
 	MouseGetPos X, Y
 	LASTGVG_X := X
 	LASTGVG_Y := Y
-	Loop{
-		Loop
-		{
-			Click( X, Y )
-			if ( LookForColorAround( X+180,Y+14,0x573319, 10 ) )
-			{
-				Click( X+87, Y-14 )
-				break
-			}
-			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
-			{
-				break
-			}
-			
-			if ( Mod( A_Index, 10 ) == 0 )
-			{
-				Send, {Escape}
-			}
-		}
-
-		
-		AutoFight()
-		Send, {Escape}
-		Send, {Escape}
-		SaveConfigs()
-	}
+	FightGvG( X, Y )
 }
 
 ;;-----------------------------------------------------------------------------------------------------------------------
@@ -1521,33 +1283,40 @@ KeepFightingGvG( key )
 {
 	X:= LASTGVG_X
 	Y:= LASTGVG_Y
-	Loop{
-		Loop
-		{
-			Click( X, Y )
-			if ( LookForColorAround( X+180,Y+14,0x573319, 10 ) )
-			{
-				Click( X+87, Y-14 )
-				;Wait( 100 )
-				break
-			}
-			if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
-			{
-				break
-			}
-			
-			if ( Mod( A_Index, 10 ) == 0 )
-			{
-				Send, {Escape}
-			}
-		}
+	FightGvG( X, Y )
+}
 
+;;-----------------------------------------------------------------------------------------------------------------------
+;; FightGvG
+;;-----------------------------------------------------------------------------------------------------------------------
+
+FightGvG(  X, Y )
+{
+ 	Loop
+	{
+		Click( X, Y )
+		if ( LookForColorAround( X+180,Y+14,0x573319, 50 ) )
+		{
+			Click( X+87, Y-14 )
+			AutoFight()
+			Send, {Escape}
+			Send, {Escape}
+			SaveConfigs()
+		}
+		if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
+		{
+			AutoFight()
+			Send, {Escape}
+			Send, {Escape}
+			SaveConfigs()
+		}
 		
-		AutoFight()
-		Send, {Escape}
-		;Wait( 50 )
-		Send, {Escape}
-		;Wait( 50 )
+		; Pour une erreur c'est produite
+		if ( LookForColorAround( 804,492,0x5A2013, 50 ) )
+		{
+			Click( 971,672 )
+		}
+		
 	}
 }
 
@@ -1634,7 +1403,7 @@ RemoveFriendsSmallScreen()
 		ValidateLoop( 765,982,0x341E0D, 2000, "Click", 741,925 )
 		Wait( 100 )
 		;; Click remove friend
-		ValidateLoop( 871,611,0xE3D3A9, 2000, "Click", 883,979 )
+		ValidateLoop( 871,611,0xE3D3A9, 2000, "Click", 886,968 )
 		Wait( 100 )
 		;; Confirm
 		ValidateLoop( 567,89,0x53351C, 2000, "Click", 1077,679 )
@@ -1807,14 +1576,19 @@ ReplaceWithBestFastUnitsSmallScreen()
 {
 	Loop
 	{
-		;FindClick()
-
 		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Coconut.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Mog.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Mog.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Mog.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o5 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o5 x0 y+80" )
 		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o5 x0 y+80" )
 		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Box.png", "o5 x0 y+80" )
 		Send, 1
 		Sleep, 500
-		if ( Mod( A_Index, 10 )== 0 )
+		if ( Mod( A_Index, 2 )== 0 )
 		{
 			Send, {esc}
 		}
@@ -1852,6 +1626,143 @@ MouseClicksWhileKeyDown()
 		Wait( r )
 	}
 }
+
+;;-----------------------------------------------------------------------------------------------------------------------
+;; FriendsLoop()
+;;-----------------------------------------------------------------------------------------------------------------------
+
+FriendsLoop()
+{
+	ReloadAndFinishLoad()
+	
+	friends := GetNumberOfFriendsToAdd()
+	if ( friends == 0 )
+	{	
+		return
+	}
+	
+	Loop, 10
+	{
+		Loop, 20
+		{
+			; Go to friend list
+			ValidateLoop( 850,902,0x394359, 500, "Click",867,899 )
+			
+			; Go to the start of the friend list
+			Click( 248,1011 )
+			Wait( 25 )
+			Click( 248,1011 )
+			Wait( 500 )
+			
+			HelpAll()
+			
+			Loop, 10
+			{
+				Click( 487,79 )
+				if ( WaitForColor( 522,87,0x55381E,10,50 ) )
+				{
+					break
+				}
+			}
+			
+			if ( WaitForColor( 275,1026,0x301A09,10,50 ) )
+			{
+				break
+			}
+			
+		}
+		
+		ReloadAndFinishLoad()
+		friendsLeft := GetNumberOfFriendsToAdd()
+	
+		if ( friendsLeft == 0 )
+		{		
+			break
+		}
+	
+	}
+
+	; Go to friend list
+	ValidateLoop( 850,902,0x394359, 500, "Click",867,899 )
+	
+	; Go to the end of the friend list
+	Click( 915,1011 )
+	Wait( 25 )
+	Click( 915,1011 )
+	Wait( 25 )
+	
+	FRIENDS_TO_REMOVE := friends
+	
+	PutFPS()
+	
+	Wait( 500 )
+	
+	; Go to the end of the friend list
+	Click( 915,1011 )
+	Wait( 500 )
+	Click( 915,1011 )
+	Wait( 500 )
+	Click( 915,1011 )
+	Wait( 500 )
+	Click( 915,1011 )
+	Wait( 500 )
+	
+	RemoveFriendsSmallScreen()
+	
+	ResetFriendsCount()
+}
+
+
+GetNumberOfFriendsToAdd()
+{
+	clipText := Clipboard
+	Loop, Parse, clipText, % "|"
+	{
+		text := A_LoopField
+		if ( ( InStr( text, "Friends:") > 0 ) )
+		{
+			NewStr := SubStr(text, 9)
+			NewStr := NewStr + 0
+			return NewStr
+		}
+
+	}
+	return -1
+}
+
+ResetFriendsCount()
+{
+    oWhr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    oWhr.Open("PUT", IP . "ResetFriends", false)
+    oWhr.Send()
+}
+
+AreFriendsReady()
+{
+	oWhr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    oWhr.Open("GET", IP . "AreFriendsReady", false)
+    oWhr.Send()
+    return oWhr.ResponseText
+}
+
+
+CheckForFriends()
+{
+	Loop
+	{
+		ToolTip , "Waiting for friends to be ready...", 10, 10
+		if ( AreFriendsReady() == "true" )
+		{
+			ToolTip , "Working on friends in 1 min", 10, 10
+			Wait( 60000 )
+			ToolTip , "Working on friends", 10, 10
+			FriendsLoop()
+		}
+		Wait( 10000 )
+	}
+
+}
+
 
 ;;-----------------------------------------------------------------------------------------------------------------------
 ;; RemoveAndReplaceSiege()
@@ -1940,11 +1851,17 @@ PutFPSWorker(x, y)
 	WaitForColor( 649,88,0x55361C,10, 3000 )
 	
 	; Click the gm button
-	ValidateLoop( 642,373,0x5F2216, 2000, "Click", x,y )
+	if ( ValidateLoop( 642,373,0x5F2216, 500, "Click", x,y ) == -1 )
+	{
+		return
+	}
 	Wait( 500 )
 	
 	; Click the first gm
-	ValidateLoop( 604,275,0x652518, 2000, "Click", 1230,473 )
+	if ( ValidateLoop( 604,275,0x652518, 500, "Click", 1191,472 ) == -1 )
+	{
+		return
+	}
 	Wait( 1000 )
 	
 	; Click the 1 pf
@@ -2023,7 +1940,12 @@ CheckForAvailableSlotAndFill( X, Y )
 }
 
 
-
+FixOracleSaves()
+{
+    oWhr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    oWhr.Open("PUT", IP . "FixOracleSaves", false)
+    oWhr.Send()
+}
 
 ;;-----------------------------------------------------------------------------------------------------------------------
 ;; CustomFunction
@@ -2031,16 +1953,54 @@ CheckForAvailableSlotAndFill( X, Y )
 
 CustomFunction()
 {
+	;FixOracleSaves()
 	
-	FindClick()
-	; Close the win panel
+	CheckForFriends()
 
-
-
-	return
-	
 
 }
+
+
+
+SelectNextPrize()
+{
+	
+	if ( Clipboard == "1" )
+	{
+		Clipboard := ""
+		Wait( 500 )
+		ValidateLoop( 747,419,0x4E100B, 1000, "Click", 778,678 )
+		ClosePrize()
+	}
+	if ( Clipboard == "2" )
+	{
+		Clipboard := ""
+		Wait( 500 )
+		ValidateLoop( 747,419,0x4E100B, 1000, "Click", 953,691 )
+		ClosePrize()
+	}
+	if ( Clipboard == "3" )
+	{
+		Clipboard := ""
+		Wait( 500 )
+		ValidateLoop( 747,419,0x4E100B, 1000, "Click", 1145,674 )
+		ClosePrize()
+	}
+	else
+	{
+		Click( 240,133 )
+		Wait( 500 )
+	}
+}
+
+ClosePrize()
+{	
+	ValidateLoop(908,548,0xA8C04D, 1000, "Click", 889,664 )
+}
+
+
+
+
 
 
 

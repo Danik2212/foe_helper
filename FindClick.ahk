@@ -1273,7 +1273,7 @@ FindClick(ImageFile="", Options="", ByRef FoundX="", ByRef FoundY="") ; updated 
 		;----------------------------------------- General Settings -----------------------------------------
 		TempFile = %A_Temp%\%A_ThisFunc%Temp.png ; Directory where a temporary imagefile will be created (ImageSearch only accepts an imagefile as input)
 		NewFilePlaceHolder = NewFile             ; The filename that will populate the field if none is provided. Omit the extension unless %DefaultExts% has also been omitted
-		PauseHotkey = ``                         ; Hotkey that pauses updating of the screen magnifier, allowing you to select a screenshot region and add options
+		PauseHotkey = a                         ; Hotkey that pauses updating of the screen magnifier, allowing you to select a screenshot region and add options
 		SquareSize = 19                          ; Width and height of each magnifier color square, in pixels
 		SquaresWide = 22                         ; Width in color squares of the magnifier. Also signifies the width of the region to be magnified, in pixels
 		SquaresHigh = 18                         ; Same as above for height

@@ -273,11 +273,11 @@ ValidateLoop( x, y, color, timeout, func, arg1 = -1, arg2 = -1, arg3 = -1, arg4 
 		CallFunc( func, arg1, arg2, arg3, arg4, arg5 )
 		if( LookForColorAround( x,y,color, timeout ) )
 		{
-			break
+			return 1
 		}
 		if (Inc > 20 )
 		{
-			return
+			return -1
 		}
 	}
 }

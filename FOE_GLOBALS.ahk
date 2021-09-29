@@ -50,6 +50,7 @@ global AccountEditText
 
 global BIG_SCREEN := -1
 
+global IP := "http://10.0.0.86:3000/"
 
 ;; HOTKEYS
 

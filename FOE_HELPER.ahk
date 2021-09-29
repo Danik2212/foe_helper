@@ -666,7 +666,7 @@ DoFightSmallScreen()
 	X:= 0
 	Y:= 0
 	
-	Click( 931,814 )
+	Click( 967,821 )
 	;Wait( 250 )
 	start := A_TickCount
 	
@@ -705,10 +705,10 @@ DoFightSmallScreen()
 				Click( X,Y+3 )
 				2fightDone := 1
 			}
-		
-			if ( 2fightDone && SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+			
+			if ( 2fightDone && SearchForColor2( 961,822, 985,853, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
-				if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
+				if ( LookForColorAround( 1037,402,0xCAA964, 100 ) )
 				{
 					;Wait( 100 )
 					Click( X,Y+3 )
@@ -1955,8 +1955,8 @@ CustomFunction()
 {
 	;FixOracleSaves()
 	
-	CheckForFriends()
-
+	;CheckForFriends()
+	AutoFightGvG(0)
 
 }
 

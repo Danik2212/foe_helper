@@ -651,7 +651,7 @@ DoFightSmallScreen()
 {
 	2fights := 0
 	WaitForColor( 648,627,0x2C3978, 10, 2000 )
-	if ( WaitForColor( 1032,489,0x6C2121, 10, 50 ) )
+	if ( WaitForColor( 1032,489,0x6C2121, 10, 100 ) )
 	{
 		2fights := 1
 		text := "2 fights "
@@ -666,7 +666,7 @@ DoFightSmallScreen()
 	X:= 0
 	Y:= 0
 	
-	Click( 931,814 )
+	Click( 967,821 )
 	;Wait( 250 )
 	start := A_TickCount
 	
@@ -699,16 +699,19 @@ DoFightSmallScreen()
 		}
 		else
 		{
-			if ( 2fights && SearchForColor2( 884,815, 917,823, X, Y, 0xB47622, 0x995423, 10, 50 ) )
+			if ( 2fights && SearchForColor2( 884,820, 917,845, X, Y, 0xB47622, 0x995423, 10, 50 ) )
 			{
-				Wait( 100 )
-				Click( X,Y+3 )
-				2fightDone := 1
+				if ( LookForColorAround( 1178,315,0xFAF6D1, 100 ) )
+				{
+					Wait( 100 )
+					Click( X,Y+3 )
+					2fightDone := 1
+				}
 			}
-		
-			if ( 2fightDone && SearchForColor2( 889,825, 934,830, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+			
+			if ( 2fightDone && SearchForColor2( 961,822, 985,853, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
-				if ( LookForColorAround( 1032,601,0x4D3118, 100 ) )
+				if ( LookForColorAround( 1083,410,0x51C175, 100 ) )
 				{
 					;Wait( 100 )
 					Click( X,Y+3 )
@@ -720,7 +723,7 @@ DoFightSmallScreen()
 		
 		}
 		
-		if ( ( A_TickCount - start ) > 5000 ) 
+		if ( ( A_TickCount - start ) > 2000 ) 
 			return
 	
 	}

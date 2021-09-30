@@ -1185,6 +1185,10 @@ Tabs()
 {
 	Send %A_Tab%
 	Send %A_Tab%
+	Send %A_Tab%
+	Send %A_Tab%
+	Send %A_Tab%
+	Send %A_Tab%
 }
 
 

@@ -699,16 +699,19 @@ DoFightSmallScreen()
 		}
 		else
 		{
-			if ( 2fights && SearchForColor2( 884,815, 917,823, X, Y, 0xB47622, 0x995423, 10, 50 ) )
+			if ( 2fights && SearchForColor2( 884,820, 917,845, X, Y, 0xB47622, 0x995423, 10, 50 ) )
 			{
-				Wait( 100 )
-				Click( X,Y+3 )
-				2fightDone := 1
+				if ( LookForColorAround( 1178,315,0xFAF6D1, 100 ) )
+				{
+					Wait( 100 )
+					Click( X,Y+3 )
+					2fightDone := 1
+				}
 			}
 			
 			if ( 2fightDone && SearchForColor2( 961,822, 985,853, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
-				if ( LookForColorAround( 1037,402,0xCAA964, 100 ) )
+				if ( LookForColorAround( 1083,410,0x51C175, 100 ) )
 				{
 					;Wait( 100 )
 					Click( X,Y+3 )
@@ -873,7 +876,7 @@ FinishFightCDGSmallScreen()
 	{
 		Click( 893,670 )
 		Click( 902,625 )
-		if( WaitForColor( 648,627,0x2C3978, 10, 50 ) )
+		if( WaitForColor( 648,627,0x2C3978, 10, 25 ) )
 			break
 	}
 
@@ -1955,8 +1958,7 @@ CustomFunction()
 {
 	;FixOracleSaves()
 	
-	;CheckForFriends()
-	AutoFightGvG(0)
+	CheckForFriends()
 
 }
 

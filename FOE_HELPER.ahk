@@ -677,17 +677,21 @@ DoFightSmallScreen()
 	Loop{
 		if ( NO_RANKS )
 		{
-			if ( 2fights && SearchForColor2( 884,815, 917,823, X, Y, 0xB47622, 0x995423, 10, 50 ) )
+			if ( 2fights && SearchForColor2( 905,826, 960,845, X, Y, 0xB47622, 0x995423, 10, 50 ) )
 			{
-				Wait( 100 )
-				Click( X,Y+3 )
-				Wait( 100 )
-				2fightDone := 1
+				if ( LookForColorAround( 1111,749,0x423C3E, 100 ) )
+				{
+					Wait( 100 )
+					Click( X,Y+3 )
+					Wait( 100 )
+					2fightDone := 1
+				}
 			}
-		
-			if ( 2fightDone && SearchForColor2( 884,761, 941,791, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
+
+			if ( 2fightDone && SearchForColor2( 970,783, 1007,802, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
-				if ( LookForColorAround( 1044,371,0xFEFADF, 100 ) )
+			
+				if ( LookForColorAround( 1213,517,0x393334, 100 ) )
 				{
 					;Wait( 100 )
 					Click( X,Y+3 )
@@ -711,7 +715,8 @@ DoFightSmallScreen()
 			
 			if ( 2fightDone && SearchForColor2( 961,822, 985,853, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
-				if ( LookForColorAround( 1083,410,0x51C175, 100 ) )
+			
+				if ( LookForColorAround( 1083,410,0x51C175, 100 ) || LookForColorAround( 1054,408,0xC3A25F, 100 ) )
 				{
 					;Wait( 100 )
 					Click( X,Y+3 )
@@ -1071,6 +1076,9 @@ Tabs()
 	Send %A_Tab%
 	Send %A_Tab%
 	Send %A_Tab%
+	Send %A_Tab%
+	Send %A_Tab%
+	Send %A_Tab%
 }
 
 ;;-----------------------------------------------------------------------------------------------------------------------
@@ -1297,7 +1305,6 @@ FightGvG(  X, Y )
 {
  	Loop
 	{
-		Click( X, Y )
 		if ( LookForColorAround( X+180,Y+14,0x573319, 50 ) )
 		{
 			Click( X+87, Y-14 )
@@ -1306,18 +1313,22 @@ FightGvG(  X, Y )
 			Send, {Escape}
 			SaveConfigs()
 		}
-		if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
+		else if ( LookForColorAround( 633,600,0x3D50AC, 50 ) )
 		{
 			AutoFight()
 			Send, {Escape}
 			Send, {Escape}
 			SaveConfigs()
 		}
-		
-		; Pour une erreur c'est produite
-		if ( LookForColorAround( 804,492,0x5A2013, 50 ) )
+		else if ( LookForColorAround( 804,492,0x5A2013, 50 ) )
 		{
 			Click( 971,672 )
+		}
+		else
+		{
+			Send, {Escape}
+			Send, {Escape}
+			Click( X, Y )
 		}
 		
 	}
@@ -1403,7 +1414,7 @@ RemoveFriendsSmallScreen()
 	Loop, %FRIENDS_TO_REMOVE%
 	{
 		;; Click the portrait
-		ValidateLoop( 765,982,0x341E0D, 2000, "Click", 741,925 )
+		ValidateLoop( 800,975,0x57371B, 2000, "Click", 741,925 )
 		Wait( 100 )
 		;; Click remove friend
 		ValidateLoop( 871,611,0xE3D3A9, 2000, "Click", 886,968 )
@@ -1710,6 +1721,8 @@ FriendsLoop()
 	Click( 915,1011 )
 	Wait( 500 )
 	
+	FRIENDS_TO_REMOVE := friends - 2
+	
 	RemoveFriendsSmallScreen()
 	
 	ResetFriendsCount()
@@ -1958,8 +1971,11 @@ CustomFunction()
 {
 	;FixOracleSaves()
 	
-	CheckForFriends()
-
+	;CheckForFriends()
+	Loop
+	{
+		SelectNextPrize()
+	}
 }
 
 

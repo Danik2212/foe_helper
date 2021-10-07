@@ -511,7 +511,7 @@ FOE_HELPER( hotkey )
 		RemoveFriendsSmallScreen()
 		
 		case "AF15": ;Alt & 3
-		
+		CheckForFriends()
 		
 		case "AF16": ;Alt & Enter
 		

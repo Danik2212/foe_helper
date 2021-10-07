@@ -5,6 +5,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 #include %A_LineFile%\..\FOE_COMMON_FUNCTIONS.ahk
 #include %A_LineFile%\..\FOE_GLOBALS.ahk
 #include %A_LineFile%\..\FindClick.ahk
+#include %A_LineFile%\..\RandomBezier.ahk
 
 SetBatchLines -1
 
@@ -705,7 +706,7 @@ DoFightSmallScreen()
 		{
 			if ( 2fights && SearchForColor2( 884,820, 917,845, X, Y, 0xB47622, 0x995423, 10, 50 ) )
 			{
-				if ( LookForColorAround( 1178,315,0xFAF6D1, 100 ) )
+				if ( LookForColorAround( 1182,477,0x433D3F, 100 ) )
 				{
 					Wait( 100 )
 					Click( X,Y+3 )
@@ -716,7 +717,7 @@ DoFightSmallScreen()
 			if ( 2fightDone && SearchForColor2( 961,822, 985,853, X, Y, 0x72A725, 0x57861F, 10, 50 ) )
 			{	
 			
-				if ( LookForColorAround( 1083,410,0x51C175, 100 ) || LookForColorAround( 1054,408,0xC3A25F, 100 ) )
+				if ( LookForColorAround( 1212,571,0x403A3C, 100 ) )
 				{
 					;Wait( 100 )
 					Click( X,Y+3 )
@@ -1969,20 +1970,45 @@ FixOracleSaves()
 
 CustomFunction()
 {
-	;FixOracleSaves()
-	
-	;CheckForFriends()
+	MouseGetPos, Xo, Yo
 	Loop
 	{
-		SelectNextPrize()
+		MouseGetPos, X, Y
+		Random, dx, -25, 150
+		Random, dy, -15, 15
+
+		;MouseMove, X, Y, 100
+		
+		RandomBezier( X, Y, X + dx, Y + dy, "T500 OT0 OB0 OL0 OR0 P8-19" )
+		
+		if ( FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\vein.png", "o25 n" ) )
+		{
+			Send, e
+			Wait( 1000 )
+			Send, e
+			Wait( 12000 )
+		}
+		
+		RandomBezier( X + dx, Y + dy, Xo, Yo, "T500 OT0 OB0 OL0 OR0 P8-19" )
+		
+		if ( FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\vein.png", "o25 n" ) )
+		{
+			Send, e
+			Wait( 1000 )
+			Send, e
+			Wait( 12000 )
+		}
+		;MouseMove, Xo, Yo, 100
 	}
+	return
+	
+
 }
 
 
 
 SelectNextPrize()
 {
-	
 	if ( Clipboard == "1" )
 	{
 		Clipboard := ""

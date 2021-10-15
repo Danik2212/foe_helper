@@ -491,7 +491,7 @@ FOE_HELPER( hotkey )
 		AutoFightCDGFastLoop()
 		
 		case "F22": ;8
-		ReplaceArmy()
+		AutoFight()
 		
 		case "F23": ;9
 		CancelQuests()

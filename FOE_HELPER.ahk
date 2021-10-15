@@ -1403,8 +1403,9 @@ RemoveFriendsSmallScreen()
 	Loop, %FRIENDS_TO_REMOVE%
 	{
 		;; Click the portrait
-		ValidateLoop( 765,982,0x341E0D, 2000, "Click", 741,925 )
+		ValidateLoop( 774,974,0x5B3A1E, 2000, "Click", 741,925 )
 		Wait( 100 )
+		
 		;; Click remove friend
 		ValidateLoop( 871,611,0xE3D3A9, 2000, "Click", 886,968 )
 		Wait( 100 )
@@ -1575,7 +1576,7 @@ ReplaceWithBestFastUnitsSmallScreen()
 ;; 5MinProductionLoop
 ;;-----------------------------------------------------------------------------------------------------------------------
 
-5MinProductionLoop()
+5MinProductionLoop2()
 {
 	Loop
 	{
@@ -1594,6 +1595,41 @@ ReplaceWithBestFastUnitsSmallScreen()
 		if ( Mod( A_Index, 2 )== 0 )
 		{
 			Send, {esc}
+		}
+		
+	}
+
+}
+
+5MinProductionLoop()
+{
+	Loop
+	{
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins.png", "o15 e x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins2.png", "o15 e x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins3.png", "o15 e x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins4.png", "o15 e x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins5.png", "o15 e x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o10 x0 y+40" )
+		
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies.png", "o15 e x0 y+60" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies2.png", "o15 e x0 y+60" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies3.png", "o15 e x0 y+60" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies4.png", "o15 e x0 y+60" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies5.png", "o15 e x0 y+60" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep2.png", "o10 x0 y+40" )
+		
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Box.png", "o5 x0 y+40" )
+		Send, 1
+		Sleep, 50
+		if ( Mod( A_Index, 10 )== 0 )
+		{
+			Send, {esc}
+		}
+		
+		if ( Mod( A_Index, 1000 )== 0 )
+		{
+			ReloadAndFinishLoad()
 		}
 		
 	}
@@ -1756,8 +1792,8 @@ CheckForFriends()
 		ToolTip , "Waiting for friends to be ready...", 10, 10
 		if ( AreFriendsReady() == "true" )
 		{
-			ToolTip , "Working on friends in 1 min", 10, 10
-			Wait( 60000 )
+			ToolTip , "Working on friends in 2 min", 10, 10
+			Wait( 120000 )
 			ToolTip , "Working on friends", 10, 10
 			FriendsLoop()
 		}
@@ -1956,9 +1992,10 @@ FixOracleSaves()
 
 CustomFunction()
 {
+	FindClick()
 	;FixOracleSaves()
 	
-	CheckForFriends()
+	;CheckForFriends()
 
 }
 

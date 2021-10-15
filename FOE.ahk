@@ -22,7 +22,6 @@ Init(){
 	ElevateAdministrator()
 	LoadConfigs()
 	InitGui()
-	
 }
 
 ; -------
@@ -182,8 +181,8 @@ InitGui(){
 	
 	Gui, RedDot:New, +toolwindow -resize -caption +alwaysontop
 	Gui, color , ff0000  ; set color value RGB
-	Gui, RedDot:show,w4 h4 x561 y794
-	
+	Gui, RedDot:show,w4 h4 x940 y817
+
 	Gui, Reset:New, +toolwindow -resize -caption +alwaysontop
 	Gui, Reset:Add, Button, x0 y0 w50 h40 gReloadApp, Reset
 	Gui, Reset:Add, Button, x50 y0 w50 h40 gAutoQuestAndBattle, Quest
@@ -198,14 +197,7 @@ InitGui(){
 	SysGet, mon, MonitorWorkArea
 	width := monRight - monLeft
 	
-	if( width > 1980 )
-	{
-		Gui, Main:Show, x3500 y400 h280 w470, FOE
-	}
-	else
-	{
-		Gui, Main:Show, x100 y100 h280 w470, FOE
-	}
+	Gui, Main:Show, x100 y100 h280 w470, FOE
 	
 }
 
@@ -511,7 +503,7 @@ FOE_HELPER( hotkey )
 		RemoveFriendsSmallScreen()
 		
 		case "AF15": ;Alt & 3
-		
+		CheckForFriends()
 		
 		case "AF16": ;Alt & Enter
 		

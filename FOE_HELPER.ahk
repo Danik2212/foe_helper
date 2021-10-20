@@ -1475,10 +1475,11 @@ Claim50DiamondsBigScreen()
 
 Claim50DiamondsSmallScreen()
 {
+	Direction := "Down"
 	StartTime := A_TickCount
 	Loop{
 		;; Search for the button
-		if ( SearchForColor( 1227,620, 1256,698, X, Y, 0x975321, 10, 1000 ) )
+		if ( SearchForColor( 1227,620, 1256,698, X, Y, 0x975321, 10, 500 ) )
 		{
 			Click( X, Y )
 			50D_COLLECTION_DONE += 1
@@ -1489,20 +1490,46 @@ Claim50DiamondsSmallScreen()
 		}
 		else
 		{
-			if ( LookForColorAround( 950,581,0x5A3A1E, 1000 ) )
+			if ( LookForColorAround( 950,581,0x5A3A1E, 500 ) )
 			{
-				if ( A_TickCount > (StartTime + 10000) )
+				if ( A_TickCount > (StartTime + 2000) )
 				{
-					Click( 1361,624 )
-					Click( 1361,624 )
-					Click( 1361,624 )
-					Click( 1361,624 )
-					StartTime := A_TickCount
+					; If you reached the top, go back down
+					if ( LookForColorAround( 1361,637,0x848FA5, 1000 ) )
+					{
+						Direction := "Down"
+					}
+					
+					; If you reached the bottom, go back up
+					if ( LookForColorAround( 1361,794,0x848FA5, 1000 ) )
+					{
+						Direction := "Up"
+					}
+					
+					if ( Direction == "Up" )
+					{
+						Click( 1361,624 )
+						Click( 1361,624 )
+						Click( 1361,624 )
+						Click( 1361,624 )
+						StartTime := A_TickCount
+					}
+					else
+					{
+						Click( 1363,808 )
+						Click( 1363,808 )
+						Click( 1363,808 )
+						Click( 1363,808 )
+						StartTime := A_TickCount
+					
+					}
+					
+					
 				}
 			}
 		}
 		
-		if ( LookForColorAround( 777,672,0xBC9C6B, 1000 ) )
+		if ( LookForColorAround( 777,672,0xBC9C6B, 500 ) )
 		{
 			Click( 968,711 )
 			Wait( 2000 )

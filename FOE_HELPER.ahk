@@ -1605,19 +1605,16 @@ ReplaceWithBestFastUnitsSmallScreen()
 {
 	Loop
 	{
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins.png", "o15 e x0 y+40" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins2.png", "o15 e x0 y+40" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins3.png", "o15 e x0 y+40" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins4.png", "o15 e x0 y+40" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins5.png", "o15 e x0 y+40" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o10 x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins.png", "o10 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\coins2.png", "o10 x0 y+80" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep.png", "o10 x0 y+80" )
 		
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies.png", "o15 e x0 y+60" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies2.png", "o15 e x0 y+60" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies3.png", "o15 e x0 y+60" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies4.png", "o15 e x0 y+60" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies5.png", "o15 e x0 y+60" )
-		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Sleep2.png", "o10 x0 y+40" )
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies.png", "o10 x-20 y+80" )
+		Send, 1
+		Sleep, 550
+		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\supplies2.png", "o10 x-20 y+80" )
+		Send, 1
+		Sleep, 550
 		
 		FindClick( "C:\Users\Danik\Documents\GitHub\foe_helper\Box.png", "o5 x0 y+40" )
 		Send, 1
@@ -1627,9 +1624,9 @@ ReplaceWithBestFastUnitsSmallScreen()
 			Send, {esc}
 		}
 		
-		if ( Mod( A_Index, 1000 )== 0 )
+		if ( Mod( A_Index, 1500 )== 0 )
 		{
-			ReloadAndFinishLoad()
+			;ReloadAndFinishLoad()
 		}
 		
 	}
